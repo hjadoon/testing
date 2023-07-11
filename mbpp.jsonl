@@ -1,0 +1,2815 @@
+[
+    
+
+{
+"code":"function [A, c, b, Eqin, MinMaxLP] = \n canonical2standard(A, c, b, Eqin, MinMaxLP) \n[m, n] = size(A); % size of matrix A \n for i = 1:m
+	if Eqin(i) == -1
+		A = [A zeros(m, 1)];
+		A(i, n + 1) = 1; 
+		c = [c; 0];
+		Eqin(i) = 0;
+		n = n + 1;
+	end
+end
+end",
+"summary":"the function is an implementation of the transformation of an LP problem in its canonical form to its standard form"
+},
+
+
+{
+"code":"function g = conj(f)
+%CONJ  Complex conjugate of a BALLFUN.
+%   CONJ(F) is the complex conjugate of F.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @conj ); 
+
+end",
+"summary":"Complex conjugate of a BALLFUN."
+},
+
+{
+"code":"function g = cos( f )
+%COS   Cosine of a BALLFUN.
+%   COS(F) computes the cosine of F.
+%
+% See also COSH, COS.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @cos ); 
+
+end",
+"summary":"Cosine of a BALLFUN."
+},
+{
+"code":"function g = cosh(f)
+%COSH   Hyperbolic cosine of a BALLFUN.
+%   COSH(F) computes the hyperbolic cosine of F.
+%
+% See also SINH, COS, SIN
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @cosh ); 
+end",
+"summary":"Hyperbolic cosine of a BALLFUN"
+},
+{
+"code":"function g = exp(f)
+%EXP   Exponential of a BALLFUN.
+%   EXP(F) computes the exponential of the BALLFUN F.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @exp ); 
+
+end",
+"summary":"Exponential of a BALLFUN."
+},
+{
+"code":"function v = grad(f)
+%GRAD Gradient of a BALLFUN in cartesian coordinates.
+%   GRAD(F) is the gradient of the BALLFUN F expressed in
+%   cartesian coordinates.
+%
+%   This is shorthand for the command GRADIENT.
+%
+% See also DIV, CURL
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+v = gradient(f);
+end",
+"summary":"Gradient of a BALLFUN in cartesian coordinates."
+},
+{
+"code":"function g = imag(f)
+%IMAG   Complex imaginary part of a BALLFUN.
+%   IMAG(F) is the imaginary part of F.
+%
+% See also REAL.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @imag ); 
+
+end",
+"summary":" Complex imaginary part of a BALLFUN."
+},
+{
+"code":"function I = integral(f)
+%INTEGRAL   Triple integral of a BALLFUN over its domain.
+%   I = INTEGRAL(F) returns the double definite integral of a BALLFUN.
+%
+% See also SUM3.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+I = sum3(f);
+end",
+"summary":"Triple integral of a BALLFUN over its domain."
+},
+{
+"code":"function out = isempty( f ) 
+%ISEMPTY   True for empty BALLFUN.
+%   ISEMPTY(F) returns 1 if F is an empty BALLFUN and 0 otherwise. 
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+out = isempty( f.coeffs ); 
+end",
+"summary":" True for empty BALLFUN."
+},
+{
+"code":"function b = isequal(f, g)
+%ISEQUAL Equality test for BALLFUN.  
+%   ISEQUAL(F, G) returns 1 if F =G, 
+%   returns 0 otherwise 
+%
+%   See also ISZERO.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+% Test if f = g
+b = iszero( f - g );
+end",
+"summary":"Equality test for BALLFUN.  "
+},
+{
+"code":"function varargout = lap(varargin)
+%LAP   Laplacian of a BALLFUN.
+%   L = LAP(F) returns a BALLFUN representing the Laplacian of F. 
+%
+%   This is shorthand for LAPLACIAN(F).
+%
+% See also BALLFUN/LAPLACIAN.
+
+% Copyright 2017 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+[varargout{1:nargout}] = laplacian(varargin{:});
+
+end",
+"summary":"returns a BALLFUN representing the Laplacian of F."
+},
+{
+"code":"function g = log(f)
+%LOG   Natural logarithm of a BALLFUN.
+%   LOG(F) returns the natural logarithm of F. If F has any roots over the
+%   unit ball, then the representation is likely to be inaccurate.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+% Return the logarithm of the ballfun function f
+g = compose( f, @log ); 
+
+end",
+"summary":" Natural logarithm of a BALLFUN"
+},
+{
+"code":"function s = mean(f, dim)
+%MEAN   Average or mean value of a BALLFUN in a specific direction. 
+%   MEAN(F, DIM) where DIM is 1, 2 or 3 is the mean of F over r (radial direction), 
+%   lambda (azimuthal direction) or theta (polar direction) respectively and 
+%   and returns as its output a spherefun if DIM is 1 or a diskfun otherwise.
+%
+% See also BALLFUN/MEAN2, BALLFUN/MEAN3. 
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+if ( nargin == 1) 
+    % Default to the r-direction:
+    dim = 1;    
+end
+
+% Compute the definite integral of f
+s = sum(f, dim);
+
+if dim == 1
+    % Mean in the r direction
+    s = s*3;
+elseif dim == 2
+    % Mean in the lambda direction
+    s = s/(2*pi);
+elseif dim == 3
+    % Mean in the theta direction
+    s = s/2;
+else
+    error('CHEBFUN:BALLFUN:mean:dim', ...
+        'Unrecognized input.')
+end    
+end",
+"summary":"Average or mean value of a BALLFUN in a specific direction. "
+},
+{
+"code":"function h = minus(f, g)
+%BALLFUN minus.
+%   F - G subtracts BALLFUNs F and G, or a scalar from a BALLFUN if either F or
+%   G is a scalar.
+%
+%   H = MINUS(F, G) is called for the syntax 'F - G'.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+h = f + (-g);
+end",
+"summary":" subtracts BALLFUNs F and G,"
+},
+{
+"code":"function g = mrdivide(f,c)
+%/   Right scalar divide for BALLFUN objects.
+%   X = B/A or X = mrdivide(B, A) is equivalent to X = B./A.
+%
+% See also MTIMES.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = f*(1/c);
+end",
+"summary":"Right scalar divide for BALLFUN objects."
+},
+{
+"code":"function g = power(f,n)
+%.^   BALLFUN power.
+%   F.^G returns a BALLFUN F to the scalar power G.
+%
+%   H = POWER(F, G) is called for the syntax 'F .^ G'.
+%
+% See also SQRT.
+
+% Copyright 2018 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+n = ballfun( n );
+g = compose(f, @power, n); 
+end",
+"summary":" F.^G returns a BALLFUN F to the scalar power G."
+},
+{
+"code":"function g = real(f)
+%REAL Real part of a BALLFUN.
+%   REAL(F) is the real part of the BALLFUN F.
+%
+% See also IMAG. 
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @real ); 
+
+end",
+"summary":"REAL(F) is the real part of the BALLFUN F."
+},
+
+{
+"code":"function g = sin(f)
+%SIN  Sine of a BALLFUN.
+%   SIN(F) computes the sine of the BALLFUN F.
+%
+% See also SINH, COS.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @sin ); 
+
+end",
+"summary":"computes the sine of the BALLFUN F."
+},
+{
+"code":"function g = sinh(f)
+%SINH   Hyperbolic sine of a BALLFUN.
+%   SINH(F) computes the hyperbolic sine of the BALLFUN F.
+%
+% See also SIN, COS.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @sinh ); 
+end",
+"summary":"  Hyperbolic sine of a BALLFUN."
+},
+{
+"code":"function g = sqrt(f)
+%SQRT   Square root of a BALLFUN.
+%   SQRT(F) is the square root of a BALLFUN F. 
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @sqrt ); 
+
+end",
+"summary":"Square root of a BALLFUN."
+},
+{
+"code":"function g = tan(f)
+%TAN   Tangent of a BALLFUN.
+%   TAN(F) computes the tangent of the BALLFUN F.
+%
+% See also TANH, SIN, COS.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @tan ); 
+end",
+"summary":"Tangent of a BALLFUN."
+},
+{
+"code":"function g = tanh(f)
+%TANH   Hyperbolic tangent of a BALLFUN.
+%   TANH(F) computes the hyperbolic tangent of the BALLFUN F.
+%
+% See also TAN, SINH, COSH.
+
+% Copyright 2019 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+g = compose( f, @tanh ); 
+end",
+"summary":"Hyperbolic tangent of a BALLFUN."
+},
+{
+"code":"function f = uminus(f)
+%-   BALLFUN unary minus.
+%   -F negates the BALLFUN F.
+%
+%   G = UMINUS(F) is called for the syntax '-F'.
+
+% Copyright 2018 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+f.coeffs = -f.coeffs;
+
+end",
+"summary":"BALLFUN unary minus."
+},
+{
+"code":"function f = uplus(f)
+%+   BALLFUN unary plus.
+%   +F of a BALLFUN is F.
+%
+%   G = UPLUS(F) is called for the syntax '+F'.
+
+% Copyright 2018 by The University of Oxford and The Chebfun Developers.
+% See http://www.chebfun.org/ for Chebfun information.
+
+end",
+"summary":"BALLFUN unary plus."
+},
+{
+"code":"function d = detperm(p)
+  n = length(p);
+  if isoctave(), P =   eye(n);  % Octave uses special representation
+  else,          P = speye(n);
+  end
+  d = det(P(:,p));
+end",
+"summary":"computes the determinant (i.e., sign) D of the permutation"
+},
+{
+"code":"function symm = chksymm(symm)
+  symm = lower(symm);
+  assert(strcmp(symm,'n') || strcmp(symm,'s') || strcmp(symm,'h') || ...
+         strcmp(symm,'p'),'FLAM:chksymm:invalidSymm', ...
+         'Symmetry parameter must be one of ''N'', ''S'', ''H'', or ''P''.')
+end",
+"summary":"Check symmetry parameter."
+},
+{
+"code":"function trans = chktrans(trans)
+  trans = lower(trans);
+  assert(strcmp(trans,'n') || strcmp(trans,'t') || strcmp(trans,'c'), ...
+         'FLAM:chktrans:invalidTrans', ...
+         'Transpose parameter must be one of ''N'', ''T'', or ''C''.')
+end",
+"summary":" Check transpose parameter."
+},
+{
+"code":"function ld = logdet_ldl(D)
+  idx = full(sum(D ~= 0)) == 1;  % find 1x1 blocks ...
+  d = diag(D);                   % ... and compute determinant ...
+  ld = sum(log(d(idx)));         % ... from corresponding diagonal
+  idx = find(~idx);  % accumulate determinant for each 2x2 block
+  for i = 1:2:length(idx), ld = ld + log(det(D(idx(i:i+1),idx(i:i+1)))); end
+end",
+"summary":" Compute log-determinant of D factor from block LDL factorization"
+},
+{
+"code":"function A = spaddv(A,I,J,V)
+  n = numel(J);
+  for j = 1:n, A{J(j)}(I) = A{J(j)}(I) + V(:,j); end
+end",
+"summary":" Sparse matrix addition for sparse column cell array."
+},
+{
+"code":"function S = spget(A,I,J)
+  S = A(:,J);
+  S = full(S(I,:));
+end",
+"summary":"Sparse matrix access."
+},
+{
+"code":"
+function [I,J,nz] = sppush2(I,J,nz,i,j)
+  N = length(I);
+  n = numel(i);
+  assert(length(J) == N && numel(j) == n,'FLAM:sppush2:sizeMismatch', ...
+         'Arrays I and J must have the same size.')
+  nznew = nz + n;
+  if N < nznew
+    while N < nznew, N = 2*N; end  % exponentially increase capacity as needed
+    e = zeros(N-length(I),1);
+    I = [I; e];
+    J = [J; e];
+  end
+  I(nz+(1:n)) = i;
+  J(nz+(1:n)) = j;
+  nz = nznew;
+end",
+"summary":"Append to 2-array sparse matrix representation."
+},
+{
+"code":"function [C,N,A] = tri3geom(V,F)
+
+  % set default parameters
+  if nargin < 2 || isempty(F), F = [1; 2; 3]; end
+
+  % compute triangle information
+  C = (V(:,F(1,:)) + V(:,F(2,:)) + V(:,F(3,:)))/3;
+  V21 = V(:,F(2,:)) - V(:,F(1,:));
+  V32 = V(:,F(3,:)) - V(:,F(2,:));
+  N = cross(V21,V32);
+  A = sqrt(sum(N.^2));
+  N = N./A;
+  A = 0.5*A;
+end",
+"summary":"Centroid, unit normal, and area of a triangle in 3D."
+},
+
+{
+"code":"function x=BackSub(U,b)
+  % This function computes the vector $x$ by backward substitution.
+  % We solve $Ux=b$, where $U$ is an $n \times n$ nonsingular upper triangular matrix
+  % and $b$ is a known vector of the length $n$, finding the vector $x$.
+  
+  %% Compute x by backward substitution.
+  s=size(U);
+  n=s(1);
+  x=zeros(n,1);
+  %  $U(i,i)*x(i) = b(i) - \sum_{j=i+1}^{n}$
+  x(n)=b(n)/U(n,n);
+  for i=n-1:-1:1
+    x(i)=(b(i)-U(i,(i+1):n)*x((i+1):n))/U(i,i);
+  end
+end",
+"summary":"This function computes the vector $x$ by backward substitution."
+},
+{
+"code":"% ----------------------------------------
+% Find all eigenvalues of the matrix A ion the input interval [a,b)
+% ----------------------------------------
+
+% define size n of the  n-by-n matrix A
+n=5;
+
+% Generate the symmetric tridiagonal  matrix A
+A=randomTridiag(n);
+
+% Set bounds for the interval [a,b) in the algorithm and the tolerance
+a=-100;b=100;
+tol=0.000001;
+
+%Define functions for the worklist
+
+DeleteRowInWorklist=@(Worklist,linenr) ChangeRowInWorklist(Worklist,linenr,'delete');
+InsertRowInWorklist=@(Worklist,LineToAdd)...
+ChangeRowInWorklist(Worklist,LineToAdd,'add');
+
+% Set the info for the first worklist
+na=Negcount(A,a);
+nb=Negcount(A,b);
+Worklist=[];
+
+%If no eigenvalues are found on the interval [a,b) then save an empty worklist
+if na ~= nb
+  Worklist=InsertRowInWorklist(Worklist,[a,na,b,nb]);
+end
+
+while numel(Worklist) ~= 0
+  [Worklist, LineToWorkWith ]= DeleteRowInWorklist(Worklist,1);
+  
+  low=LineToWorkWith(1);
+  n_low=LineToWorkWith(2);
+  up=LineToWorkWith(3);
+  n_up=LineToWorkWith(4);
+  
+  % if the upper and lower bounds are close enough we  print out this interval
+  if (up-low)< tol
+    NrOfEigVal = n_up-n_low;
+    fprintf('We have computed %3.0f eigenvalues in the interval [%4.4f,%4.4f) \n', ...
+    NrOfEigVal,low,up);
+  else
+    % Perform the bisection step
+    mid= (low+up)/2;
+    n_mid= Negcount(A,mid);
+    if n_mid > n_low
+      Worklist = InsertRowInWorklist(Worklist,[low,n_low,mid,n_mid]);
+    end
+    if n_up>n_mid
+      Worklist = InsertRowInWorklist(Worklist,[mid,n_mid,up,n_up]);
+    end
+  end
+end",
+"summary":"Find all eigenvalues of the matrix A ion the input interval [a,b)"
+},
+{
+"code":"% ----------------------------------------
+% Computes algorithm of Divide-and-Conquer:
+% eigenvalues will be roots of the secular equation and will lie
+% on the diagonal of the output matrix L.
+% In the output matrix Q will be corresponding eigenvectors.
+% ----------------------------------------
+
+function [Q,L] = DivideandConq(T)
+  % Compute size of input matrix T:
+  [m,n] = size(T);
+  
+  % here we will divide the matrix
+  m2 = floor(m/2);
+  
+  %if m=0 we shall return
+  if m2 == 0 %1 by 1
+    Q = 1; L = T;
+    return;
+    %else we perform recursive computations
+  else
+    [T,T1,T2,bm,v] = formT(T,m2);
+    
+    %recursive computations
+    [Q1,L1] = DivideandConq(T1);
+    [Q2,L2] = DivideandConq(T2);
+    
+    %pick out the last and first columns of the transposes:
+    Q1T = Q1';
+    Q2T = Q2';
+    u = [Q1T(:,end); Q2T(:,1)];
+    
+    %Creating the D-matrix:
+    D = zeros(n);
+    D(1:m2,1:m2) = L1;
+    D((m2+1):end,(m2+1):end) = L2;
+    
+    % The Q matrix (with Q1 and Q2 on the "diagonals")
+    Q = zeros(n);
+    Q(1:m2,1:m2) = Q1;
+    Q((m2+1):end,(m2+1):end) = Q2;
+    
+    %Creating the matrix B, which determinant is the secular equation:
+    % det B = f(\lambda)=0
+    B = D+bm*u*u';
+    
+    % Compute eigenvalues as roots of the secular equation
+    %  f(\lambda)=0  using Newton's method
+    eigs = NewtonMethod(D,bm,u);
+    Q3 = zeros(m,n);
+    
+    % compute eigenvectors for corresponding eigenvalues
+    for i = 1:length(eigs)
+      Q3(:,i) = (D-eigs(i)*eye(m))\u;
+      Q3(:,i) = Q3(:,i)/norm(Q3(:,i));
+    end
+    
+    %Compute  eigenvectors of the original input matrix T
+    Q = Q*Q3;
+    
+    % Present eigenvalues  of the original matrix input T
+    %(they will be on diagonal)
+    L = zeros(m,n);
+    L(1:(m+1):end) = eigs;
+    
+    return;
+  end
+  
+end
+
+% Compute T1, T2  constant bm  and the vector v
+%from the input matrix A.
+
+function [T,T1,T2,bm,v] = formT(A,m)
+  
+  T1 = A(1:m,1:m);
+  T2 = A((m+1):end,(m+1):end);
+  bm = A(m,m+1);
+  
+  T1(end) = T1(end)-bm;
+  T2(1) = T2(1)-bm;
+  
+  v = zeros(size(A,1),1);
+  v(m:m+1) = 1;
+  
+  T = zeros(size(A));
+  T(1:m,1:m) = T1;
+  T((m+1):end,(m+1):end) = T2;
+  
+end
+
+% compute eigenvalues in the secular equation
+% using the Newton's method
+
+function eigs = NewtonMethod(D,p,u)
+  [m,n] = size(D);
+  
+  %The initial guess in  the Newton's method
+  % will be the numbers d_i
+  startingPoints = sort(diag(D));
+  
+  %if p > 0 we have an eigenvalue on the right, else on the left
+  if p >= 0
+    startingPoints = [startingPoints; startingPoints(end)+10000];
+  elseif p < 0
+    startingPoints = [startingPoints(1)-10000; startingPoints];
+  end
+  
+  eigs = zeros(m,1);
+  
+  % tolerance in Newton's method
+  convCriteria = 1e-05;
+  
+  % step in the approximation of the derrivative
+  % in Newton's method
+  dx = 0.00001;
+  
+  %plot the secular equation
+  X = linspace(-3,3,1000);
+  for t = 1:1000
+    y(t) =SecularEqEval(D,p,u,X(t),m,n);
+  end
+  plot(X,y, 'LineWidth',2)
+  axis([-3 3 -5 5])
+  legend('graph of the secular equation $f(\lambda)=0$')
+  
+  %Start  Newton's method
+  for i = 1:m
+    %the starting value of lambda
+    currentVal = (startingPoints(i)+startingPoints(i+1) )/ 2;
+    
+    % this value is used inthe stoppimg criterion below
+    currentVal2 = inf;
+    %  computed secular equation for \lambda=currentVal
+    fCurr = SecularEqEval(D,p,u,currentVal,m,n);
+    
+    rands = 0;
+    k =0;
+    j = 0;
+    
+    if  ~((startingPoints(i+1)-startingPoints(i)) < 0.0001)
+      while ~(abs(fCurr) < convCriteria)
+        
+        %compute value of the function  dfApprox with small step dx to
+        %approximate derivative
+        fval2 = SecularEqEval(D,p,u,currentVal+dx,m,n);
+        fval1 = SecularEqEval(D,p,u,currentVal,m,n);
+        dfApprox = (fval2-fval1)/dx;
+        
+        % compute new value of  currentVal in Newton's method,
+        % or perform one iteration in Newton's method
+        currentVal = currentVal - fCurr/dfApprox;
+        
+        % check: if we are  outside of the current range, reinput inside:
+        if currentVal <= startingPoints(i)
+          currentVal= startingPoints(i)+0.0001;
+          k=k+1;
+        elseif currentVal >= startingPoints(i+1);
+          currentVal= startingPoints(i+1)-0.0001;
+          k=k+1;
+        elseif dfApprox == Inf || dfApprox == -Inf
+          currentVal= startingPoints(i) + ...
+          rand*(startingPoints(i+1)-startingPoints(i));
+          rands = rands+1;
+        end
+        
+        j=j+1;
+        
+        fCurr = SecularEqEval(D,p,u,currentVal,m,n);
+        
+        if k > 10 || j > 50;
+          tempVec = [startingPoints(i),startingPoints(i+1)];
+          [val,ind] = min(abs([startingPoints(i),startingPoints(i+1)]-currentVal));
+          if ind == 1
+            currentVal = tempVec(ind)+0.00001;
+          else
+            currentVal = tempVec(ind)-0.00001;
+          end
+          break;
+        elseif currentVal2 == currentVal || rands > 5 || isnan(currentVal) || isnan(fCurr)
+          currentVal = currentVal2;
+          break;
+        end
+        %save last value:
+        currentVal2 = currentVal;
+      end
+    end
+    
+    %assigning eigenvalue in the right order
+    eigs(i) = currentVal;
+    
+  end
+  
+end
+
+% evaluate the  secular equation in Newton's method for the computed
+% eigenvalue x
+function fVal = SecularEqEval(D,p,u,x,m,n)
+  
+  fVal = 1+p*u'*inv((D-x*eye(m,n)))*u;
+  
+end
+",
+"summary":"Computes algorithm of Divide-and-Conquer:"
+},
+{
+"code":"function A=DiscretePoisson2D(n)
+  % The function for 2D discretization  of the Laplace operator with sign minus: - laplace
+  % Input parameters:
+  % n -  number of inner nodes, which is assumed to be the same in both
+  % the x_1- and x_2 directions.
+  
+  A = zeros(n*n,n*n);
+  
+  % Main diagonal
+  for i=1:n*n
+    A(i,i)=4;
+  end
+  
+  % 1st and 2nd off-diagonals
+  for k=1:n % go through block 1 to n
+    for i=1:(n-1)
+      A(n*(k-1)+i,n*(k-1)+i+1)=-1; %
+      A(n*(k-1)+i+1,n*(k-1)+i)=-1;
+    end
+  end
+  
+  % 3rd and 4th off-diagonals
+  for i=1:n*(n-1)
+    A(i,i+n)=-1;
+    A(i+n,i)=-1;
+  end
+  
+end",
+"summary":"The function for 2D discretization  of the Laplace operator with sign minus: - laplace"
+},
+{
+"code":"function x=ForwSub(L,b)
+  % This function computes the vector $x$, of length $n$,
+  % given $Lx=b$ where $L$ is an $n \times n$ nonsingular lower triangular matrix
+  % and $b$ is a known vector of length $n$, by using forward substitution.
+  
+  %% Compute $x$ by forward substitution.
+  s=size(L);
+  n=s(1);
+  x=zeros(n,1);
+  % $L(i,i)*x(i)=b(i) - \sum_{j=1}^{i-1}$
+  % First, set $x(i)=b(i)$, then subtract the known values.
+  % Lastly, divide by diagonal entry $L(i,i)$
+  x(1)=b(1)/L(1,1);
+  for i=2:n
+    x(i)=(b(i)-L(i,1:(i-1))*x(1:(i-1)))/L(i,i);
+  end
+end",
+"summary":"This function computes the vector $x$, of length $n$,"
+},
+{
+"code":"
+% ----------------------------------------
+% Run Hager's algorithm.
+% ----------------------------------------
+
+function [LowerBound] = HagersAlg(B)
+  
+  x=(1/length(B))*ones(length(B),1);
+  
+  iter=1;
+  while iter < 1000
+    w=B*x; xi=sign(w); z = B'*xi;
+    if max(abs(z)) <= z'*x
+      break
+    else
+      x= (max(abs(z))== abs(z));
+    end
+    iter = iter + 1;
+  end
+  LowerBound = norm(w,1);
+end
+",
+"summary":"Run Hager's algorithm."
+},
+{
+"code":"function [bc] = mbinocof(n,k)
+if n<k
+  error('error - n<k!')
+elseif mod(n,1)~=0 || mod(k,1)~=0
+  error('error - input values are not integers')
+end
+%% the works
+if ~isa(n,'double'),n=double(n);end
+if ~isa(k,'double'),k=double(k);end
+bc = factorial(n) / (factorial(k)*factorial(n-k));",
+"summary":"computes the binomial coefficient for values of n up to 170"
+},
+{
+"code":"function [f] = mbinoform(n,k,p)
+% function [f] = mbinoform(n,k,p)
+% 
+% binomial formula for computing the exact probability of k occurrences of event A in n trials
+% 
+% INPUTS:
+% n 	number of trials
+% k   number of occurrences of event A (can be scalar or vector)
+% p   probability of occurrence of event A
+% 
+% OUTPUT:
+% f   probability of observing k occurrences of event A in n trials when the probability of 
+%     occurrence of event A equals p
+% 
+% EXAMPLE:
+% 1) Assume have you have a fair coin, and you toss it ten times. What is the probability that
+%    heads will come up exactly three times?
+%    f = mbinoform(10,3,0.5);
+% 2) Same scenario, but this time you are looking for the whole distribution (i.e. 0 to 10
+%    occurrences of heads):
+%    f = mbinoform(10,0:10,0.5);
+%    bar(0:10,f)
+% 3) Assume you do not trust that coin. You perform the above experiment, and heads comes up 8 times.
+%    Would you consider this statistically significant?
+%    You could either use sum(f(9:11)); or 1-binocdf(7,10,0.5)
+%    In both cases, the result is 0.0546875 and would thus (just) not be considered
+%    "statistically significant" (one-tailed test).
+% 
+% Maik C. Stuettgen, May 2014
+%% input check
+if n<k == 1
+    error('error - n<k')
+end
+%% the works
+f = nan(numel(k),1);
+for i = 1:numel(k)
+  f(i) = (factorial(n) / (factorial(k(i))*factorial(n-k(i)))) * p^k(i) * (1-p)^(n-k(i));
+end
+",
+"summary":"binomial formula for computing the exact probability of k occurrences of event A in n trials"
+},
+{
+"code":function AD = adjoint(A)       %<<1/17/96   last updated>>
+%ADJOINT  Compute the classical adjoint of a square matrix A.
+%         If A is not square an empty matrix is returned.
+%         *** This routine should only be used by students to
+%         check adjoint computations and should not be used as
+%         part of a routine to compute inverses. See invert or inv.
+%
+%         Use in the form   ==>  adjoint(A)  <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+[m,n]=size(A);
+AD=[];
+if m ~= n, return, end
+for ki=1:n
+   for kj = 1:n
+      AD(ki,kj) = (-1)^(ki+kj)*det(A([1:ki-1 ki+1:n],[1:kj-1 kj+1:n]));
+   end
+end
+AD=AD';
+  end
+end
+AD=AD';
+"",
+"summary":"Compute the classical adjoint of a square matrix A."
+},
+{
+"code":"function v=blkmat(m,n)                    %last updated 1/17/96
+%BLKMAT  Generate a matrix of blanks of size m by n.
+%
+%        Use in the form   ==>  blkmat(m,n)   <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+v=[];
+for i=1:m
+    v=[v;blanks(n)];
+end
+",
+"summary":"Generate a matrix of blanks of size m by n."
+},
+{
+"code":"function val = cofactor(i,j,A)            %<<1/17/96   last updated>>
+%COFACTOR Computes the (i,j)-cofactor of matrix A.
+%         If A is not sqaure an error message is displayed.
+%         *** This routine should only be used by students to
+%         check cofactor computations.
+%
+%             Use in the form  ==>  cofactor(i,j,A)  <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+blk=setstr(219);
+[m,n]=size(A);
+if m ~= n,
+   disp([[blk blk blk] ['Error: matrix is not square.']])
+   return
+end
+%range check on i and j
+if i==abs(i) & j==abs(j) & i==fix(i) & j==fix(j)
+   disp(' ');
+else
+   disp([[blk blk blk] ['Error: indices not positive or not integer.']])
+   return
+end
+if i>n | j>n | i==0 | j==0
+   disp([[blk blk blk] ['Error: indices out of range.']])
+   return
+end
+val = (-1)^(i+j)*det(A([1:i-1 i+1:n],[1:j-1 j+1:n]));
+",
+"summary":"Computes the (i,j)-cofactor of matrix A."
+},
+{
+"code":"function v=crossprd(x,y)                       %last updated 1/26/96
+%CROSSPRD  Compute the cross product of vectors x and y in 3-space.
+%       The output is a vector orthogonal to both of the original
+%       vectors x and y. The output is returned as a row matrix
+%       with 3 components [v1 v2 v3] which is interpreted as
+%
+%                       v1*i + v2*j + v3*k
+%
+%       where i, j, and k are the unit vectors in the x, y, and z
+%       directions respectively.
+%
+%       Use in the form   ==>   v = crossprd(x,y)   <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+[mx nx]=size(x);[my ny]=size(y);
+blk=setstr(219);
+er='Error in Cross: size of input vector is not appropriate.';
+if mx*nx~=3 | my*ny~=3
+   disp([blk blk blk er])
+   return
+end
+v=[x(2)*y(3)-x(3)*y(2) x(3)*y(1)-x(1)*y(3) x(1)*y(2)-x(2)*y(1)];
+",
+"summary":"Compute the cross product of vectors x and y in 3-space."
+},
+{
+"code":"function v=dot(x,y)                         %last updated 5/27/92
+%DOT   The dot product of two n-vectors x and y is computed.
+%      The vectors can be either rows, columns, or matrices
+%      of the same size.
+%
+%      Use in the form
+%
+%                   --->  dot(x,y)  <---
+%
+%By: David R. Hill, Math. Dept., Temple University
+%    Philadelphia, Pa. 19122
+blk=setstr(219);
+er='Error in dot: arguments not of same size.';
+[mx nx]=size(x);[my ny]=size(y);
+if (mx*nx ~= max([mx nx])) | (my*ny ~= max([my ny]))
+   %check if one is a row and one a column
+   % if not check for same size
+   if (mx == my) & (nx == ny)
+      %things are same size but not rows or columns
+   else
+      disp([blk blk blk er])
+      return
+   end
+end
+x=x(:);y=y(:);
+v=x'*y;
+",
+"summary":"the dot product of two n-vectors x and y is computed."
+},
+{
+"code":"function v=dotprod(x,y)                         %last updated 1/17/96
+%DOTPROD   The dot product of two n-vectors x and y is computed.
+%          The vectors can be either rows, columns, or matrices
+%          of the same size. For complex vectors the dot product
+%          of x and y is compted as the conjugate transpose of 
+%          the first times the second.
+%
+%      Use in the form  ==>  dotprod(x,y)  <==
+%
+%  By: David R. Hill, Math Dept, Temple University,
+%      Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+%Note: this routine varies from MATLAB's dot command in
+%      how complex vectors are handled and how rectangular
+%      matrices are handled.
+%
+blk=setstr(219);
+er='Error in dotprod: arguments not of same size.';
+[mx nx]=size(x);[my ny]=size(y);
+if (mx*nx ~= max([mx nx])) | (my*ny ~= max([my ny]))
+   %check if one is a row and one a column
+   % if not check for same size
+   if (mx == my) & (nx == ny)
+      %things are same size but not rows or columns
+   else
+      disp([blk blk blk er])
+      return
+   end
+end
+x=x(:);y=y(:);
+v=x'*y;
+",
+"summary":" The dot product of two n-vectors x and y is computed."
+},
+{
+"code":"function AD = adjoint(A)       %<<1/17/96   last updated>>
+%ADJOINT  Compute the classical adjoint of a square matrix A.
+%         If A is not square an empty matrix is returned.
+%         *** This routine should only be used by students to
+%         check adjoint computations and should not be used as
+%         part of a routine to compute inverses. See invert or inv.
+%
+%         Use in the form   ==>  adjoint(A)  <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+[m,n]=size(A);
+AD=[];
+if m ~= n, return, end
+for ki=1:n
+   for kj = 1:n
+      AD(ki,kj) = (-1)^(ki+kj)*det(A([1:ki-1 ki+1:n],[1:kj-1 kj+1:n]));
+   end
+end
+AD=AD';
+  end
+end
+AD=AD';
+",
+"summary":" Compute the classical adjoint of a square matrix A."
+},
+
+{
+"code":"function y = bksub(A,b)                     %last updated 1/17/96
+%BKSUB   Perform back substitution on upper triangular
+%        system Ax = b.  If A is not square, upper
+%        triangular and nonsingular an error message is
+%        displayed. In case of an error the solution returned is
+%        all zeros.
+%   Use in the form ==> bksub(A,b)  <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+if (size(A)==size(A') & all(all(A==triu(A))) & abs(prod(diag(A))) > eps)
+    n=length(b);
+    x=zeros(n,1);
+    for j=n:-1:1
+       x(j)=(b(j)-A(j,:)*x)/A(j,j);
+    end
+    y=x;
+else
+    disp('Error in function backsub.')
+    disp('Coefficient matrix not square,')
+    disp('not upper triangular, or is singular.')
+    return
+end
+  
+",
+"summary":"Perform back substitution on upper triangular"
+},
+{
+"code":"function v=blkmat(m,n)                    %last updated 1/17/96
+%BLKMAT  Generate a matrix of blanks of size m by n.
+%
+%        Use in the form   ==>  blkmat(m,n)   <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+v=[];
+for i=1:m
+    v=[v;blanks(n)];
+end
+",
+"summary":"Generate a matrix of blanks of size m by n."
+},
+{
+"code":"function v=crossprd(x,y)                       %last updated 1/26/96
+%CROSSPRD  Compute the cross product of vectors x and y in 3-space.
+%       The output is a vector orthogonal to both of the original
+%       vectors x and y. The output is returned as a row matrix
+%       with 3 components [v1 v2 v3] which is interpreted as
+%
+%                       v1*i + v2*j + v3*k
+%
+%       where i, j, and k are the unit vectors in the x, y, and z
+%       directions respectively.
+%
+%       Use in the form   ==>   v = crossprd(x,y)   <==
+%
+%     By: David R. Hill, MATH DEPT, Temple University,
+%         Philadelphia, Pa. 19122   Email: hill@math.temple.edu
+[mx nx]=size(x);[my ny]=size(y);
+blk=setstr(219);
+er='Error in Cross: size of input vector is not appropriate.';
+if mx*nx~=3 | my*ny~=3
+   disp([blk blk blk er])
+   return
+end
+v=[x(2)*y(3)-x(3)*y(2) x(3)*y(1)-x(1)*y(3) x(1)*y(2)-x(2)*y(1)];
+",
+"summary":"Compute the cross product of vectors x and y in 3-space."
+},
+{
+"code":"function B = cmult(A,i,r)
+%CMULT	Multiplies i-th column of A by r.
+%	The command is B=CMULT(A,i,r).
+%	Copyright 1993 Terry Lawson
+%	Terry Lawson, Math Department, Tulane University, 11/93
+	
+B=A;
+B(:,i)=r*B(:,i);
+",
+"summary":"Multiplies i-th column of A by r."
+},
+{
+"code":"function B=colop(A,i,j,r)
+%COLOP	Adds r times j-th column of A to i-th column. 
+%	The command is B=COLOP(A,i,j,r). 
+%	Copyright 1993 Terry Lawson
+%	Terry Lawson, Math Department, Tulane University, 11/93
+B=A;
+B(:,i)=B(:,i)+r*B(:,j);
+",
+"summary":"Adds r times j-th column of A to i-th column."
+},
+{
+"code":"function B = cperm(A,i,j)
+%CPERM	Interchanges i-th and j-th columns of matrix.	
+%	The command is B=CPERM(A,i,j).
+%	Copyright 1993 Terry Lawson
+%	Terry Lawson, Math Department, Tulane University, 11/93
+B=A;
+c=B(:,i);B(:,i)= B(:,j);B(:,j)=c;
+",
+"summary":"Interchanges i-th and j-th columns of matrix.	"
+},
+{
+"code":"function B = mult(A,i,r)
+%MULT	Multiplies the i-th row by r. 
+%	The command is B=MULT(A,i,r).
+%	Copyright 1993 Terry Lawson
+%	Terry Lawson, Math Department, Tulane University, 11/93
+B=A;B(i,:)=r*B(i,:);
+",
+"summary":"Multiplies the i-th row by r."
+},
+{
+"code":"function v = nullt(A)
+%NULLT	Finds null space of matrix using lsolve.
+%	The  command is v = NULLT(A).
+%	Copyright 1993 Terry Lawson
+%	Terry Lawson, Math Department, Tulane University, 11/93
+[m,n]=size(A);
+b=zeros(m,1);
+[v0,v1]=lsolve(A,b);
+v=v1;
+",
+"summary":"Finds null space of matrix using lsolve."
+},
+{
+"code":"function addvec(v,w)
+%ADDVEC  Illustrate the sum v + w of 2-dimensional vectors.
+%
+%       addvec(v,w) displays a plot of v + w
+%       following Figure 1.2 in G. Strang, 
+%       "Introduction to Linear Algebra."
+%       Written by T. A. Bryan on 2 June 1993
+v=v(:);     w=w(:);      % Ensure that both are vectors of length two
+if (length(v)~=2) | (length(w)~=2)
+  error('Both v and w must be vectors of length two')
+end
+x = v + w;
+hold off
+clg
+plot([0 v(1)],[0, v(2)],'-',...
+    [0 w(1)],[0, w(2)],'-',...
+    [0 x(1)],[0, x(2)],'-')
+hold on
+text(v(1),v(2),'v')
+text(w(1),w(2),'w')
+text(x(1),x(2),'v+w')
+plot([w(1) x(1)],[w(2) x(2)],':')
+plot([v(1) x(1)],[v(2) x(2)],':')
+hold off
+",
+"summary":" Illustrate the sum v + w of 2-dimensional vectors."
+},
+{
+"code":"function C = cofactor(A,i,j)
+%COFACTOR Cofactors and the cofactor matrix.
+%	COFACTOR(A,i,j) returns the cofactor of row i, column j.
+%	COFACTOR(A) returns the matrix C of cofactors.
+if nargin == 3
+   % Remove row i and column j to produce the minor.
+   M = A;
+   M(i,:) = [];
+   M(:,j) = [];
+   C = (-1)^(i+j)*det(M);
+else
+   [n,n] = size(A);
+   for i = 1:n
+      for j = 1:n
+         C(i,j) = cofactor(A,i,j);
+      end
+   end
+end
+",
+"summary":"Cofactors and the cofactor matrix."
+},
+{
+"code":"function cosine
+%COSINE Illustrates cosine formula and dot products.
+%
+%       cosine is an interactive code to illustrate the cosine formula
+%       and dot products.  The user is asked to click on a graph to define
+%       vectors u and v.  The cosine of the angle between them
+%       is computed by the formula cosine = u'*v/(norm(u)*norm(v)).
+%       Written by T. Bryan on 27 August 1993 to illustrate G. Strang's
+%       book, "Introduction to Linear Algebra." 
+clc
+disp('This code illustrates the cosine formula and dot products')
+disp('found on p. 16 of G. Strang, "Introduction to Linear Algebra."')
+clg
+axis([-10 10 -10 10]);axis('square')
+plot(0,0); hold on
+axis([-10 10 -10 10]);axis('square')
+button = 1;
+fprintf('\n\n')
+disp('OPEN A FIGURE WINDOW')
+disp('Click at two points on the plot with the left button.')
+disp(' ')
+disp('Press any other key or button twice to exit.')
+[x,y,button]=ginput(2);
+clc
+while button==1
+  u=[x(1);y(1)];
+  v=[x(2);y(2)];
+  plot([0 u(1)],[0 u(2)],'-',[0 v(1)],[0 v(2)],'-')
+  text(u(1),u(2),'u')
+  text(v(1),v(2),'v')
+  axis([-10 10 -10 10]);axis('square')
+  fprintf('\n\nThe cosine of the angle between the two vectors is\n')
+  cosine = u'*v/(norm(u)*norm(v));
+  fprintf('cosine = u''*v/(norm(u)*norm(v)) = %g\n\n',cosine)
+  disp('The angle between the two vectors in radians is')
+  fprintf('acos(cosine) = %g\n\n',acos(cosine))
+  disp('The angle between the two vectors in degrees is')
+  fprintf('180*acos(cosine)/pi = %g\n\n',180*acos(cosine)/pi)
+  pause(3)
+  
+  disp('Click twice on the plot with the left button.')
+  disp('Press any other key or button twice to exit.')
+  [x,y,button]=ginput(2);
+  clc
+  clg
+  axis([-10 10 -10 10]);axis('square')
+  plot(0,0); hold on
+  axis([-10 10 -10 10]);axis('square')
+end
+",
+"summary":"Illustrates cosine formula and dot products."
+},
+{
+"code":"function x = cramer(A,b)
+%CRAMER	Solve linear system by Cramer's Rule.
+%	x = CRAMER(A,b) solves the square system A*x = b.
+if det(A) == 0
+   error('Matrix is singular')
+end
+[n,n] = size(A);
+for j = 1:n
+   B = A;
+   B(:,j) = b;
+   x(j) = det(B)/det(A);
+end
+x = x';
+",
+"summary":"Solve linear system by Cramer's Rule."
+},
+{
+"code":"function det = determ(A)
+%DETERM Matrix determinant from PLU.
+%	DETERM(A) computes the determinant of the square matrix A
+%	as the sign of the permutation times the product of pivots.
+[P,L,U,sign] = splu(A);
+det = sign*prod(diag(U));
+",
+"summary":"computes the determinant of the square matrix A"
+},
+{
+"code":"function eigen(A)
+%EIGEN	Describe eigenvalues and eigenvectors.
+%	EIGEN(A) prints the eigenvalues
+%	and eigenvectors of an n by n matrix.
+%	If A is not diagonalizable, its single
+%	eigenvector is printed twice.
+disp(' ')
+disp('The trace and determinant are:')
+t = trace(A)
+d = det(A)
+disp(' ')
+disp('det(e*I-A) is :')
+disp(poly2str(poly(A),'e'))
+[S,LAMBDA] = eig(A);
+disp(' ')
+disp('The matrix of eigenvalues is: ')
+LAMBDA
+disp(' ')
+disp('The matrix of unit eigenvectors is: ')
+S
+",
+"summary":"Describe eigenvalues and eigenvectors."
+},
+{
+"code":"function eigen2(a)
+%EIGEN2	Two by two eigenvalues and eigenvectors.
+%	EIGEN2(A) prints the eigenvalues
+%	and eigenvectors of a 2 by 2 matrix.
+%	If A is not diagonalizable, its single
+%	eigenvector is printed twice.
+d = a(1,1)*a(2,2) - a(1,2)*a(2,1);
+t = a(1,1) + a(2,2);
+e1 = (t + sqrt(t^2 - 4*d))/2;
+e2 = (t - sqrt(t^2 - 4*d))/2;
+if a(1,2) ~= 0
+   x1 = [a(1,2); e1-a(1,1)];
+   x2 = [a(1,2); e2-a(1,1)];
+elseif a(2,1) ~= 0
+   x1 = [e1-a(2,2); a(2,1)];
+   x2 = [e2-a(2,2); a(2,1)];
+else
+   x1 = [1; 0];
+   x2 = [0; 1];
+end
+disp(' ')
+disp('For this matrix, the polynomial whose roots are the eigenvalues is:')
+disp(['   e^2 - ' num2str(t) '*e + ' num2str(d) ' = 0'])
+disp(' ')
+disp('The first eigenvalue and eigenvector are:')
+e1
+x1
+disp(' ')
+disp('The second eigenvalue and eigenvector are:')
+e2
+x2
+",
+"summary":"Two by two eigenvalues and eigenvectors."
+},
+
+{
+"code":"%EXPOWER demonstrates the power method of finding the dominant eigenvalue
+% Written by T. Bryan on 27 August 1993
+echo on
+clc
+% The power method finds the dominant eigenvalue of a matrix (if there is
+% one) by starting with an initial vector v and repeating the command:
+%      v = A*v; v = v/norm(v);
+%
+% If successful the method converges to the dominant eigenvalue,
+% which will be lambda = v'*A*v
+%
+% The power method can fail if A has two eigenvalues of the same magnitude.
+% The starting vector v needs to have a component along the dominant eigenvector  
+%
+% We give examples of the method by calling the routine "power".
+% OPEN A WINDOW to see the plots drawn by power
+pause % Strike any key to continue
+clc
+A = [ 1      0
+    0.005    3 ];
+v = [1
+     0 ];
+pause(3)
+power(A,v,10);
+% Actual eigenvalues of A
+eig(A)
+% The method converged
+pause % Strike any key to continue
+clc
+A = [ 1       0
+    0.005  -1.05 ];
+v = [1
+     0 ];
+pause(3)
+power(A,v,10);
+% Actual eigenvectors and eigenvalues of A
+[V,D] = eig(A)
+% The method failed. The starting vector v had no component 
+% in the direction of the dominant eigenvector [0 1]'.
+pause % Strike any key to continue
+clc
+A = [ 1   0
+      0  -1 ];
+v = [1
+     1 ];
+pause(3)
+power(A,v,10);
+% Actual eigenvalues of A
+eig(A)
+%The method failed. A has two eigenvalues of equal size.
+pause % Strike any key to continue
+clc
+c = cos(.2);
+s = sin(.2);
+A = [ c  s
+     -s  c ];
+v = [1
+     0 ];
+pause(3)
+power(A,v,30);
+% Actual eigenvalues of A
+eig(A)
+% The method failed. A has immaginary eigenvalues of equal size.
+echo off
+",
+"summary":"demonstrates the power method of finding the dominant eigenvalue"
+},
+{
+"code":"function y = fastfour(x)
+%FASTFOUR Fast Fourier Transform.
+%    fastfour(x) computes the same finite Fourier transform as FFT(x)
+%    The code uses a recursive divide and conquer algorithm for
+%    even order and matrix-vector multiplication for odd order.
+%    If length(x) is m*n where m is even and n is odd, the
+%    computational complexity of this approach is O(m*log(m))*O(n^2).
+n = length(x);
+i = sqrt(-1);
+omega = exp(-2*pi*i/n);
+if rem(n,2) == 0
+   % Recursive divide and conquer
+   k = (0:n/2-1)';
+   w = omega .^ k;
+   u = fastfour(x(1:2:n-1));
+   v = w.*fastfour(x(2:2:n));
+   y = [u+v; u-v];
+else
+   % Construct the Fourier matrix.
+   j = 0:n-1;
+   k = j';
+   F = omega .^ (k*j);
+   y = F*x;
+end
+",
+"summary":"omputes the same finite Fourier transform as FFT(x)"
+},
+{
+"code":"function [k,p] = findpiv(A,k,p,tol)
+%FINDPIV Used by PLU to find a pivot for Gaussian elimination.
+%	[r,p] = FINDPIV(A(k:m,p:n),k,p,tol) finds the first element in
+%	the specified submatrix which is larger than tol in absolute value.
+%	It returns indices r and p so that A(r,p) is the pivot.
+[m,n] = size(A);
+r = find(abs(A(:))>tol);
+if isempty(r), return, end
+r = r(1);
+j = fix((r-1)/m)+1;
+p = p+j-1;
+k = k+r-(j-1)*m-1;
+",
+"summary":"find a pivot for Gaussian elimination."
+},
+{
+"code":"function X = inverse(A)
+%INVERT Matrix inverse by Gauss Jordan elimination.
+%	INVERSE(A) computes the inverse of the square matrix A
+%	by computing the reduced echelon form, R, after A is
+%	augmented by the identity matrix.
+[n,n] = size(A);
+I = eye(n,n);
+R = ref([A I]);
+X = R(:,n+1:n+n);
+",
+"summary":"Matrix inverse by Gauss Jordan elimination"
+},
+{
+"code":"function s = permdet(p)
+%PERMDET Determinant of a permutation.
+n = length(p);
+I = eye(n);
+s = determ(I(p,:));
+",
+"summary":"Determinant of a permutation."
+},
+{
+"code":"function plot2d(X)
+%PLOT2D	Two dimensional plot.
+%	X is matrix with two rows and any number of columns.
+%	PLOT2D(X) plots these columns as points in the plane
+%	and connects them with lines.
+%	The scale is set to [-10,10] in both directions.
+%
+%	For example, the statements
+%           hand
+%	or
+%	    house
+%	create sample X's representing common figures.
+%	Then, for various 2 by 2 matrices A,
+%	    plot2d(A*X)
+%	demonstrates the effect of multiplication by A.
+%	   
+x = X(1,:)';
+y = X(2,:)';
+plot(x,y,'c5o',x,y,'c6-');
+axis([-10 10 -10 10])
+axis('square')
+",
+"summary":"Two dimensional plot."
+},
+{
+"code":"function p = randperm(n)
+%RANDPERM Random permutation.
+%	RANDPERM(n) is a random permutation of 1:n.
+[ignore,p] = sort(rand(1,n));
+",
+"summary":"Random permutation."
+},
+{
+"code":"function rats(A)
+%RATS	Print in "rational" form.
+%	RATS(A) prints A with fractions instead of decimals.
+%       This is only a display! You cannot assign a name B = rats(A).
+tol = 1.e-6;
+A = A .* (abs(A)>tol);
+disp(' ');
+v = version;
+if v(1) == '4'
+   % MATLAB 4 has a rational output format, so use it.
+   f = get(0,'format');
+   format rat
+   disp(A)
+   format(f);
+else
+   % MATLAB 3.5 and Student MATLAB do not have format rat.
+   disp(rat(A,'s'))
+end
+disp(' ');
+",
+"summary":"Print in "rational" form."
+},
+{
+"code":"function s = signperm(p)
+%SIGNPERM Sign of a permutation.
+n = length(p);
+s = 1;
+for j = 1:n
+   k = find(p == j);
+   if k ~= j
+      p([k,j]) = p([j,k]);
+      s = -s;
+   end
+end
+",
+"summary":"Sign of a permutation."
+},
+{
+"code":"% MutualInformation: returns mutual information (in bits) of the 'X' and 'Y'
+% by Will Dwinnell
+%
+% I = MutualInformation(X,Y);
+%
+% I  = calculated mutual information (in bits)
+% X  = variable(s) to be analyzed (column vector)
+% Y  = variable to be analyzed (column vector)
+%
+% Note: Multiple variables may be handled jointly as columns in matrix 'X'.
+% Note: Requires the 'Entropy' and 'JointEntropy' functions.
+%
+% Last modified: Nov-12-2006
+function I = MutualInformation(X,Y);
+if (size(X,2) > 1)  % More than one predictor?
+    % Axiom of information theory
+    I = JointEntropy(X) + Entropy(Y) - JointEntropy([X Y]);
+else
+    % Axiom of information theory
+    I = Entropy(X) + Entropy(Y) - JointEntropy([X Y]);
+end
+% God bless Claude Shannon.
+% EOF
+",
+"summary":"returns mutual information (in bits) of the 'X' and 'Y'"
+},
+{
+"code":"function alpha = circ_ang2rad(alpha)
+% alpha = circ_ang2rad(alpha)
+%   converts values in degree to radians
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+alpha = alpha * pi /180;",
+"summary":"converts values in degree to radians"
+},
+{
+"code":"function alpha = circ_axial(alpha, p)
+%
+% alpha = circ_axial(alpha, p)
+%   Transforms p-axial data to a common scale.
+%
+%   Input:
+%     alpha	sample of angles in radians
+%     [p		number of modes]
+%
+%   Output:
+%     alpha transformed data
+%
+% PHB 2009
+%
+% References:
+%   Statistical analysis of circular data, N. I. Fisher
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+if nargin < 2
+    p = 1;
+end
+alpha = mod(alpha*p,2*pi);
+",
+"summary":" Transforms p-axial data to a common scale."
+},
+{
+"code":"function [r mu] = circ_axialmean(alphas, m, dim)
+%
+% mu = circ_axialmean(alpha, w)
+%   Computes the mean direction for circular data with axial 
+%   correction.
+%
+%   Input:
+%     alpha	sample of angles in radians
+%     [m		axial correction (2,3,4,...)]
+%     [dim      statistic computed along this dimension, 1]
+%
+%   Output:
+%     r		mean resultant length
+%     mu		mean direction
+%
+% PHB 7/6/2008
+%
+% References:
+%   Statistical analysis of circular data, N. I. Fisher
+%   Topics in circular statistics, S. R. Jammalamadaka et al. 
+%   Biostatistical Analysis, J. H. Zar
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+% Distributed under Open Source BSD License
+if nargin < 3
+  dim = 1;
+end
+if nargin < 2 || isempty(m)
+    m = 1;
+end
+zbarm = mean(exp(1i*alphas*m),dim);
+r = abs(zbarm);
+mu = angle(zbarm)/m;
+",
+"summary":"Computes the mean direction for circular data with axial "
+},
+{
+"code":"function [cid, alpha, mu] = circ_clust(alpha, numclust, disp)
+%
+% [cid, alpha, mu] = circClust(alpha, numclust, disp)
+%   Performs a simple agglomerative clustering of angular data.
+%
+%   Input:
+%     alpha     sample of angles
+%     numclust  number of clusters desired, default: 2
+%     disp      show plot at each step, default: false
+%
+%   Output:
+%     cid       cluster id for each entry of alpha
+%     alpha     sorted angles, matched with cid
+%     mu        mean direction of angles in each cluster
+%
+%   Run without any input arguments for demo mode.
+%
+% Circular Statistics Toolbox for Matlab
+% By Marc J. Velasco and Philipp Berens, 2009
+% velasco@ccs.fau.edu
+% Distributed under Open Source BSD License
+if nargin < 2, numclust = 5; end;
+if nargin < 3, disp = 0; end
+if nargin < 1
+    % demo mode
+    n = 20;
+    alpha = 2*pi*rand(n,1)-pi;
+    numclust = 4;
+    disp = 1;
+end;
+n = length(alpha);
+if n < numclust, error('Not enough data for clusters.'), end
+% prepare data
+cid = (1:n)';
+% main clustering loop
+num_unique = length(unique(cid));
+num_clusters_wanted = numclust;
+while(num_unique > num_clusters_wanted)
+    % find centroid means...
+    
+    % calculate the means for each putative cluster
+    mu = NaN(n,1);
+    for j=1:n
+        if sum(cid==j)>0
+            mu(j) = circ_mean(alpha(cid==j)');
+        end
+    end
+    
+    % find distance between centroids...
+    mudist = abs(circ_dist2(mu));
+    % find closest pair of clusters/datapoints
+    mindist = min(mudist(tril(ones(size(mudist)),-1)==1));
+    [row, col] = find(mudist==mindist);
+    
+    % update cluster id's
+    cid(cid==max(row)) = min(col);
+    % update stop criteria
+    num_unique = length(unique(cid));
+end
+% renumber cluster ids (so cids [1 3 7 10] => [1 2 3 4]
+cid2 = cid;
+uniquecids = unique(cid);
+for j=1:length(uniquecids)
+   cid(cid2==uniquecids(j)) = j;
+end
+% compute final cluster means
+mu = NaN(num_unique,1);
+r = NaN(num_unique,1);
+for j=1:num_unique
+    if sum(cid==j)>0
+        mu(j) = circ_mean(alpha(cid==j)');
+        r(j) = circ_r(alpha(cid==j)');
+    end
+end
+if disp
+    % plot output
+    z2 = exp(1i*alpha);
+    plotColor(real(z2), imag(z2), cid, 2)
+    zmu = r.*exp(1i*mu);
+    plotColor(real(zmu), imag(zmu), 1:num_unique, 2, '*', 10, 1)
+    axis square
+    set(gca, 'XLim', [-1, 1]);
+    set(gca, 'YLim', [-1, 1]);
+end
+function plotColor(x, y, c, varargin)
+% FUNCTION plotColor(x, y, c, [figurenum], [pstring], [markersize], [overlay_tf]);
+% plots a scatter plot for x, y, using color values in c (c should be
+% categorical info), with c same size as x and y;
+% fourth argument can be figure#, otherwise, uses figure(1);
+%
+% colors should be positive integes
+% copyright (c) 2009 Marc J. Velasco
+if nargin < 4
+    figurenum = 1;
+else
+   figurenum = varargin{1}; 
+end
+if nargin < 5
+    pstring = '.';
+else
+   pstring = varargin{2}; 
+end
+if nargin < 6
+    ms = 10;
+else
+   ms = varargin{3}; 
+end
+if nargin < 7
+    overlay = 0;
+else
+   overlay = varargin{4}; 
+end
+csmall = unique(c);
+figure(figurenum);
+if ~overlay, close(figurenum); end
+figure(figurenum);
+colors={'y', 'b', 'r', 'g', 'c', 'k', 'm'};
+hold on;
+for j=1:length(csmall);
+    
+   ci = (c == csmall(j));
+   plot(x(ci), y(ci), strcat(pstring, colors{mod(j, length(colors))+1}), 'MarkerSize', ms);
+    
+end
+if ~overlay, hold off; end
+figure(figurenum)
+",
+"summary":" Performs a simple agglomerative clustering of angular data."
+},
+{
+"code":"function [rho pval] = circ_corrcl(alpha, x)
+%
+% [rho pval ts] = circ_corrcc(alpha, x)
+%   Correlation coefficient between one circular and one linear random
+%   variable.
+%
+%   Input:
+%     alpha   sample of angles in radians
+%     x       sample of linear random variable
+%
+%   Output:
+%     rho     correlation coefficient
+%     pval    p-value
+%
+% References:
+%     Biostatistical Analysis, J. H. Zar, p. 651
+%
+% PHB 6/7/2008
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+if size(alpha,2) > size(alpha,1)
+	alpha = alpha';
+end
+if size(x,2) > size(x,1)
+	x = x';
+end
+if length(alpha)~=length(x)
+  error('Input dimensions do not match.')
+end
+n = length(alpha);
+% compute correlation coefficent for sin and cos independently
+rxs = corr(x,sin(alpha));
+rxc = corr(x,cos(alpha));
+rcs = corr(sin(alpha),cos(alpha));
+% compute angular-linear correlation (equ. 27.47)
+rho = sqrt((rxc^2 + rxs^2 - 2*rxc*rxs*rcs)/(1-rcs^2));
+% compute pvalue
+pval = 1 - chi2cdf(n*rho^2,2);
+",
+"summary":"Correlation coefficient between one circular and one linear random"
+},
+
+{
+"code":"function r =  circ_dist(x,y)
+%
+% r = circ_dist(alpha, beta)
+%   Pairwise difference x_i-y_i around the circle computed efficiently.
+%
+%   Input:
+%     alpha      sample of linear random variable
+%     beta       sample of linear random variable or one single angle
+%
+%   Output:
+%     r       matrix with differences
+%
+% References:
+%     Biostatistical Analysis, J. H. Zar, p. 651
+%
+% PHB 3/19/2009
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+if size(x,1)~=size(y,1) && size(x,2)~=size(y,2) && length(y)~=1
+  error('Input dimensions do not match.')
+end
+r = angle(exp(1i*x)./exp(1i*y));",
+"summary":" Pairwise difference x_i-y_i around the circle computed efficiently."
+},
+{
+"code":"function [mu ul ll] = circ_mean(alpha, w, dim)
+%
+% mu = circ_mean(alpha, w)
+%   Computes the mean direction for circular data.
+%
+%   Input:
+%     alpha	sample of angles in radians
+%     [w		weightings in case of binned angle data]
+%     [dim  compute along this dimension, default is 1]
+%
+%     If dim argument is specified, all other optional arguments can be
+%     left empty: circ_mean(alpha, [], dim)
+%
+%   Output:
+%     mu		mean direction
+%     ul    upper 95% confidence limit
+%     ll    lower 95% confidence limit 
+%
+% PHB 7/6/2008
+%
+% References:
+%   Statistical analysis of circular data, N. I. Fisher
+%   Topics in circular statistics, S. R. Jammalamadaka et al. 
+%   Biostatistical Analysis, J. H. Zar
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+if nargin < 3
+  dim = 1;
+end
+if nargin < 2 || isempty(w)
+  % if no specific weighting has been specified
+  % assume no binning has taken place
+	w = ones(size(alpha));
+else
+  if size(w,2) ~= size(alpha,2) || size(w,1) ~= size(alpha,1) 
+    error('Input dimensions do not match');
+  end 
+end
+% compute weighted sum of cos and sin of angles
+r = sum(w.*exp(1i*alpha),dim);
+% obtain mean by
+mu = angle(r);
+% confidence limits if desired
+if nargout > 1
+  t = circ_confmean(alpha,0.05,w,[],dim);
+  ul = mu + t;
+  ll = mu - t;
+end",
+"summary":"Computes the mean direction for circular data."
+},
+{
+"code":"function med = circ_median(alpha,dim)
+%
+% med = circ_median(alpha)
+%   Computes the median direction for circular data.
+%
+%   Input:
+%     alpha	sample of angles in radians
+%     [dim  compute along this dimension, default is 1, must 
+%           be either 1 or 2 for circ_median]
+%
+%   Output:
+%     mu		mean direction
+%
+%   circ_median can be slow for large datasets
+%
+% Update 2012
+% PHB 3/19/2009
+%
+% References:
+%   Biostatistical Analysis, J. H. Zar (26.6)
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+if nargin < 2
+  dim = 1;
+end
+M = size(alpha);
+med = NaN(M(3-dim),1);
+for i=1:M(3-dim)
+  if dim == 2
+    beta = alpha(i,:)';
+  elseif dim ==1
+    beta = alpha(:,i);
+  else
+    error('circ_median only works along first two dimensions')
+  end
+  
+  beta = mod(beta,2*pi);
+  n = size(beta,1);
+  dd = circ_dist2(beta,beta);
+  m1 = sum(dd>=0,1);
+  m2 = sum(dd<=0,1);
+  dm = abs(m1-m2);
+  if mod(n,2)==1
+    [m idx] = min(dm);
+  else
+    m = min(dm);
+    idx = find(dm==m,2);
+  end
+  if m > 1
+    warning('Ties detected.') %#ok<WNTAG>
+  end
+  md = circ_mean(beta(idx));
+  if abs(circ_dist(circ_mean(beta),md)) > abs(circ_dist(circ_mean(beta),md+pi))
+    md = mod(md+pi,2*pi);
+  end
+  
+  med(i) = md;
+end
+if dim == 2
+  med = med';
+end",
+"summary":" Computes the median direction for circular data."
+},
+{
+"code":"function alpha = circ_rad2ang(alpha)
+% alpha = circ-rad2ang(alpha)
+%   converts values in radians to values in degree
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de - www.kyb.mpg.de/~berens/circStat.html
+alpha = alpha / pi *180;",
+"summary":"  converts values in radians to values in degree"
+},
+{
+"code":"function [b b0] = circ_skewness(alpha, w, dim)
+% [b b0] = circ_skewness(alpha,w,dim)
+%   Calculates a measure of angular skewness.
+%
+%   Input:
+%     alpha     sample of angles
+%     [w        weightings in case of binned angle data]
+%     [dim      statistic computed along this dimension, 1]
+%
+%     If dim argument is specified, all other optional arguments can be
+%     left empty: circ_skewness(alpha, [], dim)
+%
+%   Output:
+%     b         skewness (from Pewsey)
+%     b0        alternative skewness measure (from Fisher)
+%
+%   References:
+%     Pewsey, Metrika, 2004
+%     Statistical analysis of circular data, Fisher, p. 34
+%
+% Circular Statistics Toolbox for Matlab
+% By Philipp Berens, 2009
+% berens@tuebingen.mpg.de
+if nargin < 3
+  dim = 1;
+end
+if nargin < 2 || isempty(w)
+  % if no specific weighting has been specified
+  % assume no binning has taken place
+	w = ones(size(alpha));
+else
+  if size(w,2) ~= size(alpha,2) || size(w,1) ~= size(alpha,1) 
+    error('Input dimensions do not match');
+  end 
+end
+% compute neccessary values
+R = circ_r(alpha,w,[],dim);
+theta = circ_mean(alpha,w,dim);
+[~, rho2 mu2] = circ_moment(alpha,w,2,true,dim);
+% compute skewness 
+theta2 = repmat(theta, size(alpha)./size(theta));
+b = sum(w.*(sin(2*(circ_dist(alpha,theta2)))),dim)./sum(w,dim);
+b0 = rho2.*sin(circ_dist(mu2,2*theta))./(1-R).^(3/2);    % (formula 2.29)
+",
+"summary":"Calculates a measure of angular skewness"
+},
+{
+"code":"function out = compq(X)
+%COMPQ checks to see if the given number is a complex number.
+%If COMPQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for complex numbers.
+%
+%     syms Y
+%     X = 1;
+%     COMPQ(X)
+%        0
+%     
+%     X = exp(i);
+%     COMPQ(X)
+%        1
+%
+%     A = [1i 2 3+4i; 4i 5 6+7i];
+%     COMPQ(A)
+%        [0, 0, 1]
+%        [0, 0, 1]
+% 
+%     A = [exp(i), pi*i, 2.0];
+%     COMPQ(A) 
+%        [1, 0, 0]
+%
+%     A = {exp(1), pi, 2.0, [Y, 2], {Y, 2}}
+%     COMPQ(A)
+%        {1, 0, 0, [0, 0], {0, 0}}
+%
+%See also EVENQ, IMAGQ, INTQ, ODDQ, REALQ, SYMQ
+if string(class(X)) == "cell"
+        c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = compq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if imag(X(i)) ~= 0 & real(X(i)) ~= 0 & string(class(X)) ~= "sym"
+            mat(i) = true;
+        elseif imag(X(i)) == 0 | real(X(i)) == 0 | string(class(X)) == "sym"
+            mat(i) = false;
+        end
+    end
+end
+out = mat;
+end",
+"summary":"checks to see if the given number is a complex number."
+},
+{
+"code":"function out = evenq(X)
+%EVENQ checks to see if the given number is even.
+%If EVENQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for even numbers.
+%
+%     syms Y
+%     X = 1;
+%     EVENQ(X)
+%        0
+%     
+%     X = 2;
+%     EVENQ(X)
+%        1
+%
+%     A = [1 2 3; 4 5 6];
+%     EVENQ(A)
+%        [0, 1, 0]
+%        [1, 0, 1]
+%      
+%     A = [exp(1); pi; 2.0, 3];
+%     EVENQ(A) 
+%        [0, 0, 1, 0]
+%
+%     A = [exp(1), pi, 2.0, Y];
+%     EVENQ(A) 
+%        [0, 0, 1, 0]
+%
+%     A = {exp(1), pi, 2.0, [Y, 2], {Y, 2}};
+%     EVENQ(A)
+%        {0, 0, 1, [0, 1], {0, 1}}
+%
+%See also COMPQ, IMAGQ, INTQ, ODDQ, REALQ, SYMQ
+if string(class(X)) == "cell"
+            c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = evenq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if imag(X(i)) == 0
+            if mod(X(i),2) == 0
+                mat(i) = true;
+            elseif mod(X(i),2) ~= 0
+                mat(i) = false;
+            end
+        elseif imag(X(i)) ~= 0
+            mat(i) = false;
+        end
+    end
+end
+out = mat;
+end",
+"summary":"checks to see if the given number is even."
+},
+{
+"code":"function out = imagq(X)
+%IMAGQ checks to see if the given number is an imaginary number.
+%If IMAGQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for imaginary numbers.
+%
+%     syms Y
+%     X = 1;
+%     IMAGQ(X)
+%        0
+%     
+%     X = exp(i);
+%     IMAGQ(X)
+%        0
+%
+%     A = [1i 2 3+4i; 4i 5 6+7i];
+%     IMAGQ(A)
+%        1     0     0
+%        1     0     0
+% 
+%     A = [exp(i); pi*i; 2.0];
+%     IMAGQ(A) 
+%        0     1     0
+%
+%     A = {exp(1), pi*i, 2.0, [Y, 2], {Y, 2}};
+%     IMAGQ(A)
+%        {0, 0, 1, [0, 0], {0, 0}}
+%
+%See also COMPQ, EVENQ, INTQ, ODDQ, REALQ, SYMQ
+if string(class(X)) == "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = imagq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    im = sqrt(-1);
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if imag(X(i))*im == X(i)
+            mat(i) = true;
+        elseif imag(X(i))*im ~= X(i)
+            mat(i) = false;
+        end
+    end
+out = mat;
+end",
+"summary":"checks to see if the given number is an imaginary number."
+},
+{
+"code":"function out = intq(X)
+%INTQ checks to see if the given number is an integer.
+%If INTQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for integers.
+%
+%     syms Y
+%     X = 1;
+%     INTQ(X)
+%        1
+%     
+%     X = 2;
+%     INTQ(X)
+%        1
+%
+%     A = [1 2 3; 4 5 6];
+%     INTQ(A)
+%        1     1     1
+%        1     1     1
+% 
+%     A = [exp(1); pi; 2.0, 3];
+%     INTQ(A) 
+%        0     0     1     1
+%
+%     A = {exp(1), pi, 2.0, [Y, 2], {Y, 2}};
+%     INTQ(A)
+%        {0, 0, 1, [0, 1], {0, 1}}
+%
+%See also COMPQ, EVENQ, IMAGQ, ODDQ, REALQ, SYMQ
+if string(class(X)) == "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = intq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if imag(X(i)) == 0
+            if mod(X(i),2) == 1 | mod(X(i), 2) == 0
+                mat(i) = true;
+            elseif mod(X(i),2) ~= 1 & mod(X(1),2) ~= 0
+                mat(i) = false; 
+            end
+        elseif imag(X(i)) ~= 0
+            mat(i) = false;
+        end
+    end
+end
+out = mat;
+end",
+"summary":"checks to see if the given number is an integer."
+},
+{
+"code":"function out = oddq(X)
+%ODDQ checks to see if the given number is odd.
+%If ODDQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for odd numbers.
+%
+%     X = 1;
+%     ODDQ(X)
+%        1
+%     
+%     X = 2;
+%     ODDQ(X)
+%        0
+%
+%     A = [1 2 3; 4 5 6];
+%     ODDQ(A)
+%        [1, 0, 1]
+%        [0, 1, 0]
+%     
+%     A = [exp(1), pi, 2.0, 3];
+%     ODDQ(A) 
+%        [0, 0, 0, 1]
+%
+%     A = {1, 2, [3 4], {5, 6}}
+%     ODDQ(A)
+%        {1, 0, [1 0], {1, 0}}
+%
+%See also COMPQ, EVENQ, IMAGQ, INTQ, REALQ, SYMQ
+if string(class(X)) == "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = oddq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if imag(X(i)) == 0
+            if mod(X(i),2) == 1
+                mat(i) = true;
+            elseif mod(X(i),2) ~= 1
+                mat(i) = false;
+            end
+        elseif imag(X(i)) ~= 0
+            mat(i) = false;
+        end
+    end
+end
+out = mat;
+end",
+"summary":"checks to see if the given number is odd."
+},
+{
+"code":"function out = realq(X)
+%REALQ checks to see if the given number is a real number.
+%If REALQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for real numbers.
+%
+%     X = 1;
+%     REALQ(X)
+%        1
+%     
+%     X = exp(i);
+%     REALQ(X)
+%        0
+%
+%     A = [1i 2 3+4i; 4i 5 6+7i];
+%     REALQ(A)
+%        0     1     0
+%        0     1     0
+% 
+%     A = [exp(i); pi*i; 2.0];
+%     REALQ(A) 
+%        0     0     1
+%
+%     A = {exp(1), pi, 2.0, [Y, 2], {Y, 2}};
+%     REALQ(A)
+%        {0, 1, 1, [0, 1], {0, 1}}
+%
+%See also COMPQ, EVENQ, IMAGQ, INTQ, ODDQ, SYMQ
+if string(class(X)) == "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = realq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if real(X(i)) == X(i)
+            mat(i) = true;
+        elseif real(X(i)) ~= X(i)
+            mat(i) = false;
+        end
+    end
+end
+out = mat;
+end",
+"summary":"checks to see if the given number is a real number."
+},
+{
+"code":"function out = symq(X)
+%SYMQ checks to see if the given input is a symbol.
+%If SYMQ is given a cell, a cell of similar contents shall be returned 
+%where each cell entry is checked for symbols.
+%
+%     syms Y
+%     SYMQ(Y)
+%        1
+%     
+%     X = 2;
+%     SYMQ(X)
+%        0
+%
+%     A = [1 2 3; 4 5 6];
+%     SYMQ(A)
+%        [0, 0, 0]
+%        [0, 0, 0]
+%     
+%   Known issues: Symbolic matrices will return all 1s, use cells instead
+%   when possible.
+%
+%     A = [exp(1), pi, 2.0, Y];
+%     SYMQ(A) 
+%        [1, 1, 1, 1]
+%
+%     A = {exp(1), pi, 2.0, [Y, 2], {Y, 2}};
+%     SYMQ(A)
+%        {0, 0, 0, [1, 1], {1, 0}}
+%
+%See also COMPQ, EVENQ, IMAGQ, INTQ, ODDQ, REALQ
+if string(class(X)) == "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = cell(size(X));
+    for i = 1:c
+        mat{i} = symq(X{i});
+    end
+elseif string(class(X)) ~= "cell"
+    c = 1;
+    for i = 1:length(size(X))
+        c = c*size(X,i);
+    end
+    mat = zeros(size(X));
+    for i = 1:c
+        if string(class(X(i))) == "sym"
+            mat(i) = true;
+        elseif string(class(X(i))) ~= "sym"
+            mat(i) = false;
+        end
+    end
+end
+out = mat;
+end",
+"summary":"checks to see if the given input is a symbol."
+},
+{
+"code":"% ellipse.m:  Function Defining an Ellipse			 
+function [X,Y]=ellipse(T, ax, ay, t0);
+X=ax*cos(T);  
+Y=ay*cos(T-t0);
+",
+"summary":"Function Defining an Ellipse	"
+},
+{
+"code":"% ex081.m: Test of angles corresponding to sin(x)
+format long
+x=0.4,  s=sin(x) 
+% Alternative angles...
+a1=asin(s),  a2=pi-a1,  a3=a1-2*pi,  a4=a1+2*pi
+% Check these angles...
+s1=sin(a1),  s2=sin(a2),  s3=sin(a3),  s4=sin(a4)
+",
+"summary":"Test of angles corresponding to sin(x)"
+},
+{
+"code":"% ex082.m: Triangle with Two Sides and One Angle Known
+format long
+disp('The two sides and the angle:')
+a=4.1,  b=9.1,  A=20/180*pi  		
+disp('Use the sine theorem to obtain sin(B), then B and C')
+sB=b*sin(A)/a,  B=asin(sB),  C=pi-A-B
+disp('Calculate the side c by the sine theorem')
+c=a*sin(C)/sin(A)				
+disp('Convert the angles to degrees')
+Adg=A/pi*180,  Bdg=B/pi*180,  Cdg=C/pi*180
+disp('Repeat to find the second solution')
+a=4.1,  b=9.1,  A=20/180*pi
+sB=b*sin(A)/a,  B=pi-asin(sB),  C=pi-A-B	
+disp('Convert the angles to degrees')
+Adg=A/pi*180,  Bdg=B/pi*180,  Cdg=C/pi*180
+",
+"summary":" Triangle with Two Sides and One Angle Known"
+},
+
+{
+"code":"% ex091.m: Plot Trigonometric Functions
+x0=5;  X=-x0:0.01:x0;   						% Range for calculations  
+Y1=sin(X);  Y2=cos(X);  Y3=tan(X);  Y4=cot(X); 
+figure(1),  plot(X,Y1,  X,Y2,  X,Y3,  X,Y4),  grid on
+y0=3;  												% Vertical plot limit
+axis([-x0 x0 -y0 y0])								% Ranges of the plot box
+title('Trigonometric Functions'),  xlabel('x'),  ylabel('sin(x), cos(x), etc.')
+legend('sin(x)', 'cos(x)', 'tan(x)', 'cot(x)') 	% Identify curves
+",
+"summary":"Plot Trigonometric Functions"
+},
+{
+"code":"% ex092.m: Inverse Trigonometric Functions
+x0=1;  X=-x0:0.01:x0;   		% Range for calculations  
+Y1=acos(X);  Y2=atan(X);  
+figure(1),  plot(X,Y1, X,Y2),  grid on
+y0=2*pi;  										% Vertical plot limit
+axis([-x0 x0 -y0 y0])							% Ranges of the plot box
+title('Inverse Functions'),  xlabel('x'),  ylabel('acos(x), atan(x)')
+legend('acos(x)', 'atan(x)') 				% Identify curves
+",
+"summary":" Inverse Trigonometric Functions"
+},
+{
+"code":"% ex092a.m: Inverse Trigonometric Functions by Swapping 
+x0=2*pi;  X=-x0: 0.01: x0;   		% Range for calculations  
+Y1=cos(X);  Y2=tan(X);  
+figure(1),  plot(Y1,X, Y2,X),  grid on
+y0=2*pi;  								% Vertical plot limit
+axis([-x0 x0 -y0 y0])					% Ranges of the plot box
+title('Inverse Functions'),  xlabel('x'),  ylabel('acos(x), atan(x)')
+legend('acos(x)', 'atan(x)') 		% Identify curves
+",
+"summary":"Inverse Trigonometric Functions by Swapping "
+},
+{
+"code":"% ex093.m: Plot Exponential Functions
+x0=10;  X=-x0:0.01:x0;
+Y1=exp(X);  Y2=1e3*exp(X);  Y3=1e6*exp(X);      
+figure(1),  plot(X,Y1, X,Y2, X,Y3),  grid on
+title('Exponential functions'),  xlabel('x'),  ylabel('exp(x), etc.')
+legend('exp(x)', '1e3*exp(x)', '1e6*exp(x)')
+axis([-x0 x0 0 2.5e4])				% Ranges of the plot box
+",
+"summary":"Plot Exponential Functions"
+},
+{
+"code":"% ex094.m: Plot  Logarithmic Functions
+x0=10;  X=0.01: 0.01: x0;  
+Y1=log(X);  Y2=log(1e3*X);  Y3=log(1e6*X);      
+figure(1),  plot(X,Y1, X,Y2, X,Y3),  grid on
+title('Logarithmic functions'),  xlabel('x'),  ylabel('log(x), etc.')
+legend('ln(x)', 'ln(1e3*x)', 'ln(1e6*x)')
+",
+"summary":"Plot  Logarithmic Functions"
+},
+{
+"code":"% ex095.m: Plot Exponential Functions
+x0=100;  X=-x0: 0.1: x0;
+Y=exp(X);  
+figure(1),  semilogy(X,Y),  grid on
+title('Exponential function'),  xlabel('x'),  ylabel('exp(x)')
+",
+"summary":" Plot Exponential Functions"
+},
+{
+"code":"% ex095a.m: Plot Gaussian Functions
+x0=5;  X=-x0: 0.01: x0;
+Y1=exp(-X.^2);  Y2=exp(-3*X.^2);     
+figure(1),  semilogy(X,Y1,  X,Y2),  grid on
+title('Gaussian functions'),  xlabel('x'),  ylabel('exp(-x^2), exp(-3x^2)')
+legend('exp(-x^2)',  'exp(-3x^2)')
+",
+"summary":"Plot Gaussian Functions"
+},
+{
+"code":"% ex096a.m: Plot  two Gaussians 
+X=-3: 0.01: 3;  Y1=gaussian(X,1);  Y2=gaussian(X,0.2);
+figure(1),  plot(X,Y1,  X,Y2),  grid on,  title('Gaussians')
+legend('a=1.0', 'a=0.2')
+",
+"summary":"Plot  two Gaussians "
+},
+{
+"code":"% ex097.m:   Plots in Polar Coordinates
+theta=0: 1e-3: 2*pi;   			% One turn only
+figure(1);  polar(theta, sin(theta)); 
+figure(2);  polar(theta, cos(theta));  
+rho3=cos(4*theta);
+figure(3);  polar(theta, rho3);  
+rho4=1+0.3*cos(8*theta);
+figure(4);  polar(theta, rho4); 
+figure(5);  polar(theta, pi*theta,'r');			% Red curve
+theta=0: 1e-3: 6*pi;			% Plots over three turns
+figure(6);  polar(theta, pi*theta,'r');			
+figure(7);  polar(theta, exp(0.05*theta),'r');	
+",
+"summary":" Plots in Polar Coordinates"
+},
+{
+"code":"%  ex098.m:  Plot of Ellipses
+T= 0:1e-3:2*pi;				% Values for common variable
+[X1,Y1]=ellipse(T, 2, 1, 0);  
+[X2,Y2]=ellipse(T, 2, 1, pi/3);  
+[X3,Y3]=ellipse(T, 2, 1, pi/2);  
+figure(1);  plot(X1,Y1,  X2,Y2,  X3,Y3);  grid on;  axis equal;
+title('Ellipses');
+legend('t0=0', 't0=pi/3', 't0=pi/2'),  xlabel('x'),  ylabel('y')
+   ",
+"summary":"Plot of Ellipses"
+},
+{
+"code":"% ex101.m: Plot a Cubic Polynomial 
+f=inline('x^3- 2*x^2- x+2');								% Define function f(x)
+figure(1),  fplot(f, [-2 3]),  grid on,  zoom on
+   title('x^3-2*x^2-x+2'),  xlabel('x')
+",
+"summary":"Plot a Cubic Polynomial "
+},
+{
+"code":"% ex132.m:  Plot a Function and its Derivative   
+clear all
+X=0: 0.01: 10;  Y=xcos(X);
+h=1e-4;					 	% Fixed increment
+Der=(xcos(X+h)- xcos(X))/ h;			% Quotient
+figure(1),  plot(X,Y,  X,Der),  grid on,  
+   legend('f=x*cos(x)', 'df/dx'),  xlabel('x')
+Dex=cos(X)-X.*sin(X);	        			% Exact derivative
+figure(2),  plot(X,Der,  X,Dex),  grid on,  legend('df/dx', 'exact')	
+figure(3),  plot(X, Der- Dex),  grid on,  title('Error in df/dx')
+",
+"summary":" Plot a Function and its Derivative   "
+},
+{
+"code":"% ex133.m:  Plot a Function and its Symmetric Derivative  
+clear all
+X=0: 0.01: 10;  Y=xcos(X);
+h=1e-4;					 	% Fixed increment
+Der=(xcos(X+h)- xcos(X-h))/(2*h);		% Symmetric quotient
+figure(1),  plot(X,Y,  X,Der),  grid on,  
+   legend('f=x*cos(x)', 'df/dx'),  xlabel('x')
+Dex=cos(X)-X.*sin(X);	        			% Exact derivative
+figure(2),  plot(X,Der,  X,Dex),  grid on,  legend('df/dx', 'exact')	
+figure(3),  plot(X, Der- Dex),  grid on,  title('Error in df/dx')
+",
+"summary":"Plot a Function and its Symmetric Derivative  "
+},
+{
+"code":"% ex134.m:  Plot Second-Order Derivative   
+clear all
+X=0:0.01:10;  Y=xcos(X);
+h=1e-4;					 	% Fixed increment
+Der=(xcos(X+h)- xcos(X-h))/(2*h);		% Symmetric quotient
+Der2=(xcos(X+h)-2*xcos(X)+xcos(X-h))/h^2;		% d2f/dx2
+figure(1),  plot(X,Y,  X,Der,  X,Der2),  grid on,  xlabel('x') 
+   legend('f=x*cos(x)', 'df/dx', 'd2f/dx2')
+D2ex=-sin(X)- sin(X)- X.*cos(X);	% Exact d2f/dx2
+figure(2),  plot(X,Der2,  X,D2ex),  grid on
+   legend('d2f/dx2', 'exact')
+figure(3),  plot(X,Der2-D2ex),  grid on,  title('Error in d2f/dx2')
+",
+"summary":" Plot Second-Order Derivative"
+},
+{
+"code":"% ex141.m:  Sum of a Geometric Series				                 
+clear all,  format long
+k=input('k= (e.g. 2) ');				% Enter k from keyboard
+si=0;						% Initial value for sum
+for i=1:20					% Set up loop 
+   term=k^(i-1);				% Term with index i
+   si=si+term;				% Add term to si
+   si_ex=(1-k^i)/(1-k);			% Analytic expression for si
+   sums=[si  si_ex],  pause		% Display, continue by return
+end						% End of loop
+",
+"summary":"Sum of a Geometric Series	"
+},
+
+{
+"code":"% ex144.m:  Power Series for sin(x)  					
+clear all,  format long;			
+x=input('x= (e.g. 1) ');
+term=x;  s=x;  i=0;				% Initial values
+while 1==1						% Forever
+   i=i+1;						% Next index
+   term=term*(-x^2)/(2*i+1)/(2*i);
+   s=s+ term;
+   if abs(term)<1e-15;  break;  end;
+end
+last_index_in_sum=i							
+sum=s,  sin_ex=sin(x)
+format short e,  error=s- sin(x)		% Scientific notation
+",
+"summary":"Power Series for sin(x)"
+},
+{
+"code":"% ex151.m:  Integration by Direct Summing 					         
+clear all,  format long	
+xn=input('xn= (e.g. 1) ');		% Right end coordinate
+x1=0;  n=500;				% Number of sub-intervals
+h=(xn-x1)/n;  				% Length of sub-interval
+X=x1: h: xn-h; 				% Omit the last point
+F=cos(X);				
+integral=sum(F)* h;			% Sum of function values
+int_ex=sin(xn)-sin(x1);			% Exact integral
+integrals=[integral  int_ex]		% Display comparison
+format short e,  error=integral-int_ex		
+",
+"summary":"Integration by Direct Summing 	"
+},
+{
+"code":"% ex172.m:  Histogram of symmetric random numbers   
+clear all
+rand('seed',sum(100*clock))
+n=5000;	
+X=2*(rand(1,n)-0.5);				% Vector with n elements 
+figure(1),  hist(X,10);  grid on		% 10 containers
+   title('Number of Random Values in Each Container')
+",
+"summary":" Histogram of symmetric random numbers   "
+},
+{
+"code":"% ex173.m:  Tossing Coins   
+clear all
+rand('seed',sum(100*clock))
+while 1==1					% Turn forever
+   head=ceil(rand-0.5)			% Either 1 or 0
+   pause					% Stop until <Return>
+end
+",
+"summary":" Tossing Coins   "
+},
+{
+"code":"% ex175.m:  Binomial and Normal Distributions  
+clear all
+m0=100;						% Number of tosses per test
+sdev=sqrt(m0)/2;					% Standard deviation of Ybd
+for j=1:m0+1					% Binomial distribution
+   m=j-1;
+   Xm(j)=m;
+   Ybd(j)=prod(1:m0)/prod(1:m)/prod(1:(m0-m))*0.5^m0;	% Binomial
+   Nd(j)=1/sdev/sqrt(2*pi)* exp(-(m- m0/2)^2/2/sdev^2);	% Normal
+end
+figure(1),  plot(Xm,Ybd,'g',  Xm,Nd,'k:'),  grid on,  axis([0 100 0 0.09])
+   title('Binomial and Normal Distributions')
+   xlabel('number of heads'),  ylabel('probability')
+figure(2),  plot(Xm,Ybd-Nd),  grid on,  axis([0 100 0 3e-4]);
+",
+"summary":" Binomial and Normal Distributions  "
+},
+{
+"code":"% ex181.m: Standard Deviation to Minimize
+clear all
+P=1: 1e-3: 2;  np=length(P); 		% Number of parameter values
+for i=1:np
+   F(i)=sdev(P(i));
+end
+figure(1),  plot(P,F),  grid on,  xlabel('p'),  ylabel('sdev')
+",
+"summary":" Standard Deviation to Minimize"
+},
+{
+"code":"% ex182a.m:  Minimize Standard Deviation, Plot Result
+clear all
+T=[200  250  300  350  400];
+I=[0.1176    0.0926    0.0735    0.0711    0.0594]*1e-7;
+P=1.5e-6: 5e-9: 3.5e-6;  		% Values of p for plot
+n=length(P); 				% Number of values in P
+for i=1:n
+   F(i)=ssq1( P(i), T, I);			% For plotting
+end
+figure(2),  plot(T,I,'o',  T,2.34e-6./T),  grid on,  xlabel('temperature')  
+",
+"summary":"Minimize Standard Deviation, Plot Result"
+},
+{
+"code":"% fun_fourier.m:  Function for Fourier Series Expansion			     
+function F= fun_fourier(T);
+%F=sin(T).^3;
+%F=exp( sin(T));
+%F= 3*pi^2*T- 3*T.^3;
+%F=cos(T)+ abs( cos(T));
+%F=unitstep(T);
+%F=unitstep(T- pi/2);
+F=exp(T);",
+"summary":"Function for Fourier Series Expansion"
+}
+
+
+]
