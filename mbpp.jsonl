@@ -1,13 +1,12 @@
 [
 {
-"code":"function [A, c, b, Eqin, MinMaxLP] = \n canonical2standard(A, c, b, Eqin, MinMaxLP) \n[m, n] = size(A); % size of matrix A \n for i = 1:m \n	if Eqin(i) == -1 \n A = [A zeros(m, 1)]; \n A(i, n + 1) = 1; \n c = [c; 0]; \n Eqin(i) = 0; \n n = n + 1; \n end \n end \n end",
-"summary":"the function is an implementation of the transformation of an LP problem in its canonical form to its standard form"
-},
+    "code": "function [A, c, b, Eqin, MinMaxLP] = \n canonical2standard(A, c, b, Eqin, MinMaxLP) \n[m, n] = size(A); % size of matrix A \n for i = 1:m \n if Eqin(i) == -1 \n A = [A zeros(m, 1)]; \n A(i, n + 1) = 1; \n c = [c; 0]; \n Eqin(i) = 0; \n n = n + 1; \n end \n end \n end",
+    "summary": "the function is an implementation of the transformation of an LP problem in its canonical form to its standard form"
+ },
 {
 "code":"function g = conj(f)\n %CONJ  Complex conjugate of a BALLFUN.\n %   CONJ(F) is the complex conjugate of F.\n % Copyright 2019 by The University of Oxford and The Chebfun Developers.\n % See http://www.chebfun.org/ for Chebfun information. \n g = compose( f, @conj ); \n end",
 "summary":"Complex conjugate of a BALLFUN."
 },
-
 {
 "code":"function g = cos( f ) \n %COS   Cosine of a BALLFUN. \n %   COS(F) computes the cosine of F. \n % See also COSH, COS. \n % Copyright 2019 by The University of Oxford and The Chebfun Developers. \n % See http://www.chebfun.org/ for Chebfun information. \n g = compose( f, @cos ); \n end",
 "summary":"Cosine of a BALLFUN."
@@ -129,27 +128,26 @@
 "code":"function [C,N,A] = tri3geom(V,F) \n % set default parameters \n if nargin < 2 || isempty(F), F = [1; 2; 3]; end \n % compute triangle information \n C = (V(:,F(1,:)) + V(:,F(2,:)) + V(:,F(3,:)))/3; \n V21 = V(:,F(2,:)) - V(:,F(1,:)); \n V32 = V(:,F(3,:)) - V(:,F(2,:)); \n N = cross(V21,V32); \n A = sqrt(sum(N.^2)); \n N = N./A; \n A = 0.5*A; \n end",
 "summary":"Centroid, unit normal, and area of a triangle in 3D."
 },
-
 {
-"code":"function x=BackSub(U,b) \n % This function computes the vector $x$ by backward substitution. \n % We solve $Ux=b$, where $U$ is an $n \times n$ nonsingular upper triangular matrix \n % and $b$ is a known vector of the length $n$, finding the vector $x$. \n %% Compute x by backward substitution. \n s=size(U); \n n=s(1); \n x=zeros(n,1); \n %  $U(i,i)*x(i) = b(i) - \sum_{j=i+1}^{n}$ \n x(n)=b(n)/U(n,n); \n for i=n-1:-1:1 \n x(i)=(b(i)-U(i,(i+1):n)*x((i+1):n))/U(i,i); \n end \n end",
-"summary":"This function computes the vector $x$ by backward substitution."
+    "code": "function x=BackSub(U,b) \n % This function computes the vector $x$ by backward substitution. \n % We solve $Ux=b$, where $U$ is an $n \times n$ nonsingular upper triangular matrix \n % and $b$ is a known vector of the length $n$, finding the vector $x$. \n %% Compute x by backward substitution. \n s=size(U); \n n=s(1); \n x=zeros(n,1); \n %  $U(i,i)*x(i) = b(i) - \\sum_{j=i+1}^{n}$ \n x(n)=b(n)/U(n,n); \n for i=n-1:-1:1 \n x(i)=(b(i)-U(i,(i+1):n)*x((i+1):n))/U(i,i); \n end \n end",
+    "summary": "This function computes the vector $x$ by backward substitution."
 },
 {
 "code":"% ---------------------------------------- \n % Find all eigenvalues of the matrix A ion the input interval [a,b) \n % ---------------------------------------- \n % define size n of the  n-by-n matrix A \n n=5; \n % Generate the symmetric tridiagonal  matrix A \n A=randomTridiag(n); \n % Set bounds for the interval [a,b) in the algorithm and the tolerance \n a=-100;b=100; \n tol=0.000001; \n %Define functions for the worklist \n DeleteRowInWorklist=@(Worklist,linenr) ChangeRowInWorklist(Worklist,linenr,'delete'); \n InsertRowInWorklist=@(Worklist,LineToAdd)... \n ChangeRowInWorklist(Worklist,LineToAdd,'add'); \n % Set the info for the first worklist \n na=Negcount(A,a); \n nb=Negcount(A,b); \n Worklist=[]; \n %If no eigenvalues are found on the interval [a,b) then save an empty worklist \n if na ~= nb \n Worklist=InsertRowInWorklist(Worklist,[a,na,b,nb]); \n end \n while numel(Worklist) ~= 0 \n [Worklist, LineToWorkWith ]= DeleteRowInWorklist(Worklist,1); \n low=LineToWorkWith(1); \n n_low=LineToWorkWith(2); \n up=LineToWorkWith(3); \n n_up=LineToWorkWith(4); \n % if the upper and lower bounds are close enough we  print out this interval  \n if (up-low)< tol \n NrOfEigVal = n_up-n_low; \n fprintf('We have computed %3.0f eigenvalues in the interval [%4.4f,%4.4f) \n', ... \n NrOfEigVal,low,up); \n else \n % Perform the bisection step \n mid= (low+up)/2; \n n_mid= Negcount(A,mid); \n if n_mid > n_low \n Worklist = InsertRowInWorklist(Worklist,[low,n_low,mid,n_mid]); \n end \n if n_up>n_mid \n Worklist = InsertRowInWorklist(Worklist,[mid,n_mid,up,n_up]); \n end \n end \n end", 
 "summary":"Find all eigenvalues of the matrix A ion the input interval [a,b)"
 },
-{
-"code":"% ---------------------------------------- \n % Computes algorithm of Divide-and-Conquer: \n % eigenvalues will be roots of the secular equation and will lie \n % on the diagonal of the output matrix L. \n % In the output matrix Q will be corresponding eigenvectors. \n % ---------------------------------------- \n function [Q,L] = DivideandConq(T) \n % Compute size of input matrix T: \n [m,n] = size(T); \n % here we will divide the matrix \n m2 = floor(m/2); \n %if m=0 we shall return \n if m2 == 0 %1 by 1 \n Q = 1; L = T; \n return; \n %else we perform recursive computations \n else \n [T,T1,T2,bm,v] = formT(T,m2); \n %recursive computations \n [Q1,L1] = DivideandConq(T1); \n [Q2,L2] = DivideandConq(T2); \n %pick out the last and first columns of the transposes: \n Q1T = Q1'; \n Q2T = Q2'; \n u = [Q1T(:,end); Q2T(:,1)]; \n %Creating the D-matrix: \n D = zeros(n); \n D(1:m2,1:m2 ) = L1; \n D((m2+1):end,(m2+1):end) = L2; \n % The Q matrix (with Q1 and Q2 on the "diagonals") \n Q = zeros(n); \n Q(1:m2,1:m2) = Q1; \n Q((m2+1):end,(m2+1):end) = Q2; \n %Creating the matrix B, which determinant is the secular equation: \n % det B = f(\lambda)=0 \n B = D+bm*u*u'; \n  % Compute eigenvalues as roots of the secular equation \n %  f(\lambda)=0  using Newton's method \n eigs = NewtonMethod(D,bm,u); \n Q3 = zeros(m,n); \n % compute eigenvectors for corresponding eigenvalues \n for i = 1:length(eigs) \n Q3(:,i) = (D-eigs(i)*eye(m))\u; \n Q3(:,i) = Q3(:,i)/norm(Q3(:,i)); \n end \n %Compute  eigenvectors of the original input matrix T \n Q = Q*Q3; \n % Present eigenvalues  of the original matrix input T \n %(they will be on diagonal) \n L = zeros(m,n); \n L(1:(m+1):end) = eigs; \n return; \n end \n end \n Compute T1, T2  constant bm  and the vector v \n %from the input matrix A. \n function [T,T1,T2,bm,v] = formT(A,m) \n T1 = A(1:m,1:m); \n T2 = A((m+1):end,(m+1):end); \n bm = A(m,m+1); \n T1(end) = T1(end)-bm; \n T2(1) = T2(1)-bm; \n v = zeros(size(A,1),1); \n v(m:m+1) = 1; \n T = zeros(size(A)); \n T(1:m,1:m) = T1; \n T((m+1):end,(m+1):end) = T2; \n end \n % compute eigenvalues in the secular equation \n % using the Newton's method \n function eigs = NewtonMethod(D,p,u) \n [m,n] = size(D); \n %The initial guess in  the Newton's method \n % will be the numbers d_i \n startingPoints = sort(diag(D)); \n %if p > 0 we have an eigenvalue on the right, else on the left \n if p >= 0 \n startingPoints = [startingPoints; startingPoints(end)+10000]; \n elseif p < 0 \n startingPoints = [startingPoints(1)-10000; startingPoints]; \n end \n eigs = zeros(m,1); \n % tolerance in Newton's method \n convCriteria = 1e-05; \n % step in the approximation of the derrivative \n % in Newton's method \n dx = 0.00001; \n %plot the secular equation \n X = linspace(-3,3,1000); \n for t = 1:1000 \n y(t) =SecularEqEval(D,p,u,X(t),m,n); \n end \n plot(X,y, 'LineWidth',2) \n axis([-3 3 -5 5]) \n legend('graph of the secular equation $f(\lambda)=0$') \n %Start  Newton's method \n for i = 1:m \n %the starting value of lambda \n currentVal = (startingPoints(i)+startingPoints(i+1) )/ 2; \n % this value is used inthe stoppimg criterion below \n currentVal2 = inf; \n %  computed secular equation for \lambda=currentVal \n fCurr = SecularEqEval(D,p,u,currentVal,m,n); \n rands = 0; \n k =0; \n j = 0; \n if  ~((startingPoints(i+1)-startingPoints(i)) < 0.0001) \n while ~(abs(fCurr) < convCriteria) \n %compute value of the function  dfApprox with small step dx to \n %approximate derivative \n fval2 = SecularEqEval(D,p,u,currentVal+dx,m,n); \n fval1 = SecularEqEval(D,p,u,currentVal,m,n); \n dfApprox = (fval2-fval1)/dx; \n % compute new value of  currentVal in Newton's method, \n % or perform one iteration in Newton's method \n currentVal = currentVal - fCurr/dfApprox; \n % check: if we are  outside of the current range, reinput inside: \n if currentVal <= startingPoints(i) \n currentVal= startingPoints(i)+0.0001; \n k=k+1; \n elseif currentVal >= startingPoints(i+1); \n currentVal= startingPoints(i+1)-0.0001; \n k=k+1; \n elseif dfApprox == Inf || dfApprox == -Inf \n currentVal= startingPoints(i) + ... \n rand*(startingPoints(i+1)-startingPoints(i)); \n rands = rands+1; \n end \n j=j+1; \n fCurr = SecularEqEval(D,p,u,currentVal,m,n); \n if k > 10 || j > 50; \n tempVec = [startingPoints(i),startingPoints(i+1)]; \n [val,ind] = min(abs([startingPoints(i),startingPoints(i+1)]-currentVal)); \n if ind == 1 \n currentVal = tempVec(ind)+0.00001; \n else \n currentVal = tempVec(ind)-0.00001; \n end \n break; \n elseif currentVal2 == currentVal || rands > 5 || isnan(currentVal) || isnan(fCurr) \n currentVal = currentVal2; \n break; \n end \n %save last value: \n currentVal2 = currentVal; \n end \n end \n %assigning eigenvalue in the right order \n eigs(i) = currentVal; \n end \n end \n % evaluate the  secular equation in Newton's method for the computed \n % eigenvalue x \n function fVal = SecularEqEval(D,p,u,x,m,n) \n fVal = 1+p*u'*inv((D-x*eye(m,n)))*u; \n end \n ",
-"summary":"Computes algorithm of Divide-and-Conquer:"
-},
+ {
+    "code": "% ---------------------------------------- \n % Computes algorithm of Divide-and-Conquer: \n % eigenvalues will be roots of the secular equation and will lie \n % on the diagonal of the output matrix L. \n % In the output matrix Q will be corresponding eigenvectors. \n % ---------------------------------------- \n function [Q,L] = DivideandConq(T) \n % Compute size of input matrix T: \n [m,n] = size(T); \n % here we will divide the matrix \n m2 = floor(m/2); \n %if m=0 we shall return \n if m2 == 0 %1 by 1 \n Q = 1; L = T; \n return; \n %else we perform recursive computations \n else \n [T,T1,T2,bm,v] = formT(T,m2); \n %recursive computations \n [Q1,L1] = DivideandConq(T1); \n [Q2,L2] = DivideandConq(T2); \n %pick out the last and first columns of the transposes: \n Q1T = Q1'; \n Q2T = Q2'; \n u = [Q1T(:,end); Q2T(:,1)]; \n %Creating the D-matrix: \n D = zeros(n); \n D(1:m2,1:m2 ) = L1; \n D((m2+1):end,(m2+1):end) = L2; \n % The Q matrix (with Q1 and Q2 on the \"diagonals\") \n Q = zeros(n); \n Q(1:m2,1:m2) = Q1; \n Q((m2+1):end,(m2+1):end) = Q2; \n %Creating the matrix B, which determinant is the secular equation: \n % det B = f(\\lambda)=0 \n B = D+bm*u*u'; \n  % Compute eigenvalues as roots of the secular equation \n %  f(\\lambda)=0  using Newton's method \n eigs = NewtonMethod(D,bm,u); \n Q3 = zeros(m,n); \n % compute eigenvectors for corresponding eigenvalues \n for i = 1:length(eigs) \n Q3(:,i) = (D-eigs(i)*eye(m))\\u; \n Q3(:,i) = Q3(:,i)/norm(Q3(:,i)); \n end \n %Compute  eigenvectors of the original input matrix T \n Q = Q*Q3; \n % Present eigenvalues  of the original matrix input T \n %(they will be on diagonal) \n L = zeros(m,n); \n L(1:(m+1):end) = eigs; \n return; \n end \n end \n Compute T1, T2  constant bm  and the vector v \n %from the input matrix A. \n function [T,T1,T2,bm,v] = formT(A,m) \n T1 = A(1:m,1:m); \n T2 = A((m+1):end,(m+1):end); \n bm = A(m,m+1); \n T1(end) = T1(end)-bm; \n T2(1) = T2(1)-bm; \n v = zeros(size(A,1),1); \n v(m:m+1) = 1; \n T = zeros(size(A)); \n T(1:m,1:m) = T1; \n T((m+1):end,(m+1):end) = T2; \n end \n % compute eigenvalues in the secular equation \n % using the Newton's method \n function eigs = NewtonMethod(D,p,u) \n [m,n] = size(D); \n %The initial guess in  the Newton's method \n % will be the numbers d_i \n startingPoints = sort(diag(D)); \n %if p > 0 we have an eigenvalue on the right, else on the left \n if p >= 0 \n startingPoints = [startingPoints; startingPoints(end)+10000]; \n elseif p < 0 \n startingPoints = [startingPoints(1)-10000; startingPoints]; \n end \n eigs = zeros(m,1); \n % tolerance in Newton's method \n convCriteria = 1e-05; \n % step in the approximation of the derrivative \n % in Newton's method \n dx = 0.00001; \n %plot the secular equation \n X = linspace(-3,3,1000); \n for t = 1:1000 \n y(t) =SecularEqEval(D,p,u,X(t),m,n); \n end \n plot(X,y, 'LineWidth',2) \n axis([-3 3 -5 5]) \n legend('graph of the secular equation $f(\\lambda)=0$') \n %Start  Newton's method \n for i = 1:m \n %the starting value of lambda \n currentVal = (startingPoints(i)+startingPoints(i+1) )/ 2; \n % this value is used inthe stoppimg criterion below \n currentVal2 = inf; \n %  computed secular equation for \\lambda=currentVal \n fCurr = SecularEqEval(D,p,u,currentVal,m,n); \n rands = 0; \n k =0; \n j = 0; \n if  ~((startingPoints(i+1)-startingPoints(i)) < 0.0001) \n while ~(abs(fCurr) < convCriteria) \n %compute value of the function  dfApprox with small step dx to \n %approximate derivative \n fval2 = SecularEqEval(D,p,u,currentVal+dx,m,n); \n fval1 = SecularEqEval(D,p,u,currentVal,m,n); \n dfApprox = (fval2-fval1)/dx; \n % compute new value of  currentVal in Newton's method, \n % or perform one iteration in Newton's method \n currentVal = currentVal - fCurr/dfApprox; \n % check: if we are  outside of the current range, reinput inside: \n if currentVal <= startingPoints(i) \n currentVal= startingPoints(i)+0.0001; \n k=k+1; \n elseif currentVal >= startingPoints(i+1); \n currentVal= startingPoints(i+1)-0.0001; \n k=k+1; \n elseif dfApprox == Inf || dfApprox == -Inf \n currentVal= startingPoints(i) + ... \n rand*(startingPoints(i+1)-startingPoints(i)); \n rands = rands+1; \n end \n j=j+1; \n fCurr = SecularEqEval(D,p,u,currentVal,m,n); \n if k > 10 || j > 50; \n tempVec = [startingPoints(i),startingPoints(i+1)]; \n [val,ind] = min(abs([startingPoints(i),startingPoints(i+1)]-currentVal)); \n if ind == 1 \n currentVal = tempVec(ind)+0.00001; \n else \n currentVal = tempVec(ind)-0.00001; \n end \n break; \n elseif currentVal2 == currentVal || rands > 5 || isnan(currentVal) || isnan(fCurr) \n currentVal = currentVal2; \n break; \n end \n %save last value: \n currentVal2 = currentVal; \n end \n end \n %assigning eigenvalue in the right order \n eigs(i) = currentVal; \n end \n end \n % evaluate the  secular equation in Newton's method for the computed \n % eigenvalue x \n function fVal = SecularEqEval(D,p,u,x,m,n) \n fVal = 1+p*u'*inv((D-x*eye(m,n)))*u; \n end \n ",
+    "summary": "Computes algorithm of Divide-and-Conquer:"
+  },
 {
 "code":"function A=DiscretePoisson2D(n) \n % The function for 2D discretization  of the Laplace operator with sign minus: - laplace \n % Input parameters: \n % n -  number of inner nodes, which is assumed to be the same in both \n % the x_1- and x_2 directions. \n A = zeros(n*n,n*n); \n % Main diagonal \n for i=1:n*n \n A(i,i)=4; \n end \n % 1st and 2nd off-diagonals \n for k=1:n % go through block 1 to n \n for i=1:(n-1) \n A(n*(k-1)+i,n*(k-1)+i+1)=-1; % \n A(n*(k-1)+i+1,n*(k-1)+i)=-1; \n end \n end \n % 3rd and 4th off-diagonals \n for i=1:n*(n-1) \n A(i,i+n)=-1; \n A(i+n,i)=-1; \n end \n end",
 "summary":"The function for 2D discretization  of the Laplace operator with sign minus: - laplace"
 },
 {
-"code":"function x=ForwSub(L,b) \n % This function computes the vector $x$, of length $n$, \n % given $Lx=b$ where $L$ is an $n \times n$ nonsingular lower triangular matrix \n % and $b$ is a known vector of length $n$, by using forward substitution. \n %% Compute $x$ by forward substitution. \n s=size(L); \n n=s(1); \n x=zeros(n,1); \n % $L(i,i)*x(i)=b(i) - \sum_{j=1}^{i-1}$ \n % First, set $x(i)=b(i)$, then subtract the known values. \n % Lastly, divide by diagonal entry $L(i,i)$ \n x(1)=b(1)/L(1,1); \n for i=2:n \n x(i)=(b(i)-L(i,1:(i-1))*x(1:(i-1)))/L(i,i); \n end \n end",
-"summary":"This function computes the vector $x$, of length $n$,"
-},
+    "code": "function x=ForwSub(L,b) \n % This function computes the vector $x$, of length $n$, \n % given $Lx=b$ where $L$ is an $n \\times n$ nonsingular lower triangular matrix \n % and $b$ is a known vector of length $n$, by using forward substitution. \n %% Compute $x$ by forward substitution. \n s=size(L); \n n=s(1); \n x=zeros(n,1); \n % $L(i,i)*x(i)=b(i) - \\sum_{j=1}^{i-1}$ \n % First, set $x(i)=b(i)$, then subtract the known values. \n % Lastly, divide by diagonal entry $L(i,i)$ \n x(1)=b(1)/L(1,1); \n for i=2:n \n x(i)=(b(i)-L(i,1:(i-1))*x(1:(i-1)))/L(i,i); \n end \n end",
+    "summary": "This function computes the vector $x$, of length $n$"
+  },
 {
 "code":" \n % ---------------------------------------- \n % Run Hager's algorithm. \n % ---------------------------------------- \n function [LowerBound] = HagersAlg(B) \n x=(1/length(B))*ones(length(B),1); \n iter=1; \n while iter < 1000 \n w=B*x; xi=sign(w); z = B'*xi; \n if max(abs(z)) <= z'*x \n break \n else \n x= (max(abs(z))== abs(z)); \n end \n iter = iter + 1; \n end \n LowerBound = norm(w,1); \n end",
 "summary":"Run Hager's algorithm."
@@ -157,10 +155,6 @@
 {
 "code":"function [bc] = mbinocof(n,k) \n if n<k \n   error('error - n<k!') \n elseif mod(n,1)~=0 || mod(k,1)~=0 \n error('error - input values are not integers') \n end \n %% the works \n if ~isa(n,'double'),n=double(n);end \n if ~isa(k,'double'),k=double(k);end \n bc = factorial(n) / (factorial(k)*factorial(n-k));",
 "summary":"computes the binomial coefficient for values of n up to 170"
-},
-{
-"code":"function [f] = mbinoform(n,k,p) \n % function [f] = mbinoform(n,k,p) \n % binomial formula for computing the exact probability of k occurrences of event A in n trials \n % INPUTS: \n % n 	number of trials \n % k   number of occurrences of event A (can be scalar or vector) \n % p   probability of occurrence of event A \n % OUTPUT: \n % f   probability of observing k occurrences of event A in n trials when the probability of  \n %     occurrence of event A equals p \n % \n % EXAMPLE: \n % 1) Assume have you have a fair coin, and you toss it ten times. What is the probability that \n % heads will come up exactly three times? \n %    f = mbinoform(10,3,0.5); \n % 2) Same scenario, but this time you are looking for the whole distribution (i.e. 0 to 10 \n  %    occurrences of heads): \n %    f = mbinoform(10,0:10,0.5); \n %    bar(0:10,f) \n % 3) Assume you do not trust that coin. You perform the above experiment, and heads comes up 8 times. \n %    Would you consider this statistically significant? \n %    You could either use sum(f(9:11)); or 1-binocdf(7,10,0.5) \n %    In both cases, the result is 0.0546875 and would thus (just) not be considered \n %    'statistically significant" (one-tailed test). \n % Maik C. Stuettgen, May 2014 \n %% input check \n if n<k == 1 \n error('error - n<k') \n end \n %% the works \n f = nan(numel(k),1); \n for i = 1:numel(k) \n f(i) = (factorial(n) / (factorial(k(i))*factorial(n-k(i)))) * p^k(i) * (1-p)^(n-k(i)); \n end",
-"summary":"binomial formula for computing the exact probability of k occurrences of event A in n trials"
 },
 {
 "code":"function AD = adjoint(A) \n %<<1/17/96   last updated>> \n %ADJOINT  Compute the classical adjoint of a square matrix A. \n % If A is not square an empty matrix is returned. \n % *** This routine should only be used by students to \n check adjoint computations and should not be used as \n % part of a routine to compute inverses. See invert or inv. \n % Use in the form   ==>  adjoint(A)  <== \n %     By: David R. Hill, MATH DEPT, Temple University, \n % Philadelphia, Pa. 19122   Email: hill@math.temple.edu \n [m,n]=size(A); \n AD=[]; \n if m ~= n, return, end \n for ki=1:n \n for kj = 1:n \n AD(ki,kj) = (-1)^(ki+kj)*det(A([1:ki-1 ki+1:n],[1:kj-1 kj+1:n])); \n end \n end \n AD=AD'; \n end \n end \n AD=AD'; \n ",
@@ -213,7 +207,7 @@
 },
 {
 "code":"function B = cperm(A,i,j) \n B=A; \n c=B(:,i);B(:,i)= B(:,j);B(:,j)=c; ",
-"summary":"Interchanges i-th and j-th columns of matrix.	"
+"summary":"Interchanges i-th and j-th columns of matrix."
 },
 {
 "code":"function B = mult(A,i,r) \n B=A;B(i,:)=r*B(i,:); ",
@@ -232,7 +226,7 @@
 "summary":"Cofactors and the cofactor matrix."
 },
 {
-"code":"function cosine \n clc \n disp('This code illustrates the cosine formula and dot products') \n disp('found on p. 16 of G. Strang, 'Introduction to Linear Algebra."') \n clg \n axis([-10 10 -10 10]);axis('square') \n plot(0,0); hold on \n  axis([-10 10 -10 10]);axis('square') \n button = 1; \n fprintf('\n\n') \n disp('OPEN A FIGURE WINDOW') \n disp('Click at two points on the plot with the left button.') \n disp(' ') \n disp('Press any other key or button twice to exit.') \n [x,y,button]=ginput(2); \n clc \n while button==1 \n u=[x(1);y(1)]; \n  v=[x(2);y(2)]; \n plot([0 u(1)],[0 u(2)],'-',[0 v(1)],[0 v(2)],'-') \n text(u(1),u(2),'u') \n text(v(1),v(2),'v') \n axis([-10 10 -10 10]);axis('square') \n fprintf('\n\nThe cosine of the angle between the two vectors is\n') \n cosine = u'*v/(norm(u)*norm(v)); \n fprintf('cosine = u''*v/(norm(u)*norm(v)) = %g\n\n',cosine) \n disp('The angle between the two vectors in radians is') \n fprintf('acos(cosine) = %g\n\n',acos(cosine)) \n disp('The angle between the two vectors in degrees is') \n fprintf('180*acos(cosine)/pi = %g\n\n',180*acos(cosine)/pi) \n pause(3) \n disp('Click twice on the plot with the left button.') \n disp('Press any other key or button twice to exit.') \n [x,y,button]=ginput(2); \n clc \n clg \n axis([-10 10 -10 10]);axis('square') \n plot(0,0); hold on \n axis([-10 10 -10 10]);axis('square') \n end",
+"code":"function cosine \n clc \n disp('This code illustrates the cosine formula and dot products') \n disp('found on p. 16 of G. Strang, 'Introduction to Linear Algebra.') \n clg \n axis([-10 10 -10 10]);axis('square') \n plot(0,0); hold on \n  axis([-10 10 -10 10]);axis('square') \n button = 1; \n fprintf('\n\n') \n disp('OPEN A FIGURE WINDOW') \n disp('Click at two points on the plot with the left button.') \n disp(' ') \n disp('Press any other key or button twice to exit.') \n [x,y,button]=ginput(2); \n clc \n while button==1 \n u=[x(1);y(1)]; \n  v=[x(2);y(2)]; \n plot([0 u(1)],[0 u(2)],'-',[0 v(1)],[0 v(2)],'-') \n text(u(1),u(2),'u') \n text(v(1),v(2),'v') \n axis([-10 10 -10 10]);axis('square') \n fprintf('\n\nThe cosine of the angle between the two vectors is\n') \n cosine = u'*v/(norm(u)*norm(v)); \n fprintf('cosine = u''*v/(norm(u)*norm(v)) = %g\n\n',cosine) \n disp('The angle between the two vectors in radians is') \n fprintf('acos(cosine) = %g\n\n',acos(cosine)) \n disp('The angle between the two vectors in degrees is') \n fprintf('180*acos(cosine)/pi = %g\n\n',180*acos(cosine)/pi) \n pause(3) \n disp('Click twice on the plot with the left button.') \n disp('Press any other key or button twice to exit.') \n [x,y,button]=ginput(2); \n clc \n clg \n axis([-10 10 -10 10]);axis('square') \n plot(0,0); hold on \n axis([-10 10 -10 10]);axis('square') ",
 "summary":"Illustrates cosine formula and dot products."
 },
 {
@@ -240,8 +234,7 @@
 "summary":"Solve linear system by Cramer's Rule."
 },
 {
-"code":"function det = determ(A) \n [P,L,U,sign] = splu(A); \n det = sign*prod(diag(U));
-",
+"code":"function det = determ(A) \n [P,L,U,sign] = splu(A); \n det = sign*prod(diag(U));",
 "summary":"computes the determinant of the square matrix A"
 },
 {
@@ -319,8 +312,8 @@
 "summary":" Pairwise difference x_i-y_i around the circle computed efficiently."
 },
 {
-"code":"function [mu ul ll] = circ_mean(alpha, w, dim) \n if nargin < 3 \n dim = 1; \n end \n if nargin < 2 || isempty(w) \n 	w = ones(size(alpha)); \n else \n if size(w,2) ~= size(alpha,2) || size(w,1) ~= size(alpha,1)\n  error('Input dimensions do not match'); \n   end  \n end \n r = sum(w.*exp(1i*alpha),dim); \n mu = angle(r); \n if nargout > 1 \n   t = circ_confmean(alpha,0.05,w,[],dim); \n ul = mu + t; \n   ll = mu - t; \n end",
-"summary":"Computes the mean direction for circular data."
+  "code": "function [mu, ul, ll] = circ_mean(alpha, w, dim)\nif nargin < 3\n    dim = 1;\nend\nif nargin < 2 || isempty(w)\n    w = ones(size(alpha));\nelse\n    if size(w, 2) ~= size(alpha, 2) || size(w, 1) ~= size(alpha, 1)\n        error('Input dimensions do not match');\n    end\nend\nr = sum(w .* exp(1i * alpha), dim);\nmu = angle(r);\nif nargout > 1\n    t = circ_confmean(alpha, 0.05, w, [], dim);\n    ul = mu + t;\n    ll = mu - t;\nend",
+  "summary": "Computes the mean direction for circular data."
 },
 {
 "code":"function med = circ_median(alpha,dim) \n if nargin < 2 \n dim = 1; \n end \n M = size(alpha); \n med = NaN(M(3-dim),1); \n for i=1:M(3-dim) \n if dim == 2 \n beta = alpha(i,:)'; \n elseif dim ==1 \n beta = alpha(:,i); \n else \n error('circ_median only works along first two dimensions') \n end \n beta = mod(beta,2*pi); \n n = size(beta,1); \n dd = circ_dist2(beta,beta); \n m1 = sum(dd>=0,1); \n m2 = sum(dd<=0,1); \n dm = abs(m1-m2); \n if mod(n,2)==1 \n [m idx] = min(dm); \n else \n m = min(dm); \n idx = find(dm==m,2); \n end \n if m > 1 \n warning('Ties detected.') %#ok<WNTAG> \n end \n md = circ_mean(beta(idx)); \n if abs(circ_dist(circ_mean(beta),md)) > abs(circ_dist(circ_mean(beta),md+pi)) \n md = mod(md+pi,2*pi); \n end \n med(i) = md; \n end \n if dim == 2 \n med = med'; \n end",
@@ -335,11 +328,11 @@
 "summary":"Calculates a measure of angular skewness"
 },
 {
-"code":"function out = compq(X) \n if string(class(X)) == 'cell' \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = cell(size(X)); \n for i = 1:c \n mat{i} = compq(X{i}); \n end \n elseif string(class(X)) ~= "cell" \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = zeros(size(X)); \n for i = 1:c \n if imag(X(i)) ~= 0 & real(X(i)) ~= 0 & string(class(X)) ~= "sym" \n mat(i) = true; \n elseif imag(X(i)) == 0 | real(X(i)) == 0 | string(class(X)) == "sym" \n mat(i) = false; \n end \n end \n end \n out = mat; \n end",
+"code":"function out = compq(X) \n if string(class(X)) == 'cell' \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = cell(size(X)); \n for i = 1:c \n mat{i} = compq(X{i}); \n end \n elseif string(class(X)) ~= 'cell \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = zeros(size(X)); \n for i = 1:c \n if imag(X(i)) ~= 0 & real(X(i)) ~= 0 & string(class(X)) ~= 'sym' \n mat(i) = true; \n elseif imag(X(i)) == 0 | real(X(i)) == 0 | string(class(X)) == 'sym' \n mat(i) = false; \n end \n end \n end \n out = mat; \n end",
 "summary":"checks to see if the given number is a complex number."
 },
 {
-"code":"function out = evenq(X) \n if string(class(X)) == 'cell' \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = cell(size(X)); \n for i = 1:c \n mat{i} = evenq(X{i}); \n end \n elseif string(class(X)) ~= "cell" \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = zeros(size(X)); \n for i = 1:c \n if imag(X(i)) == 0 \n if mod(X(i),2) == 0 \n mat(i) = true; \n elseif mod(X(i),2) ~= 0 \n mat(i) = false; \n end \n elseif imag(X(i)) ~= 0 \n mat(i) = false; \n end \n end \n end \n out = mat; \n end",
+"code":"function out = evenq(X) \n if string(class(X)) == 'cell' \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = cell(size(X)); \n for i = 1:c \n mat{i} = evenq(X{i}); \n end \n elseif string(class(X)) ~= 'cell' \n c = 1; \n for i = 1:length(size(X)) \n c = c*size(X,i); \n end \n mat = zeros(size(X)); \n for i = 1:c \n if imag(X(i)) == 0 \n if mod(X(i),2) == 0 \n mat(i) = true; \n elseif mod(X(i),2) ~= 0 \n mat(i) = false; \n end \n elseif imag(X(i)) ~= 0 \n mat(i) = false; \n end \n end \n end \n out = mat; \n end",
 "summary":"checks to see if the given number is even."
 },
 {
@@ -359,28 +352,27 @@
 "summary":"checks to see if the given number is a real number."
 },
 {
-"code":"function out = symq(X) \n if string(class(X)) == 'cell' \n     c = 1; \n     for i = 1:length(size(X)) \n         c = c*size(X,i); \n     end \n     mat = cell(size(X)); \n     for i = 1:c \n         mat{i} = symq(X{i}); \n     end \n elseif string(class(X)) ~= 'cell' \n     c = 1; \n     for i = 1:length(size(X)) \n         c = c*size(X,i); \n     end \n    mat = zeros(size(X)); \n     for i = 1:c \n         if string(class(X(i))) == "sym" \n             mat(i) = true; \n         elseif string(class(X(i))) ~= "sym" \n             mat(i) = false; \n         end \n     end \n end \n out = mat; \n end",
+"code":"function out = symq(X) \n if string(class(X)) == 'cell' \n     c = 1; \n     for i = 1:length(size(X)) \n         c = c*size(X,i); \n     end \n     mat = cell(size(X)); \n     for i = 1:c \n         mat{i} = symq(X{i}); \n     end \n elseif string(class(X)) ~= 'cell' \n     c = 1; \n     for i = 1:length(size(X)) \n         c = c*size(X,i); \n     end \n    mat = zeros(size(X)); \n     for i = 1:c \n         if string(class(X(i))) == 'sym' \n             mat(i) = true; \n         elseif string(class(X(i))) ~= 'sym' \n             mat(i) = false; \n         end \n     end \n end \n out = mat; \n end",
 "summary":"checks to see if the given input is a symbol."
 },
 {
 "code":"function [X,Y]=ellipse(T, ax, ay, t0); \n X=ax*cos(T);   \n Y=ay*cos(T-t0);",
-"summary":"Function Defining an Ellipse	"
+"summary":"Function Defining an Ellipse"
 },
 {
 "code":"format long \n x=0.4,  s=sin(x)  \n a1=asin(s),  a2=pi-a1,  a3=a1-2*pi,  a4=a1+2*pi \n s1=sin(a1),  s2=sin(a2),  s3=sin(a3),  s4=sin(a4)",
 "summary":"Test of angles corresponding to sin(x)"
 },
 {
-"code":"format long \n disp('The two sides and the angle:') \n a=4.1,  b=9.1,  A=20/180*pi   \n disp('Use the sine theorem to obtain sin(B), then B and C')  \n sB=b*sin(A)/a,  B=asin(sB),  C=pi-A-B \n disp('Calculate the side c by the sine theorem') \n c=a*sin(C)/sin(A)	 \n disp('Convert the angles to degrees') \n Adg=A/pi*180,  Bdg=B/pi*180,  Cdg=C/pi*180 \n disp('Repeat to find the second solution') \n a=4.1,  b=9.1,  A=20/180*pi \n sB=b*sin(A)/a,  B=pi-asin(sB),  C=pi-A-B	 \n disp('Convert the angles to degrees') \n Adg=A/pi*180,  Bdg=B/pi*180,  Cdg=C/pi*180",
-"summary":" Triangle with Two Sides and One Angle Known"
+  "code": "format long \n disp('The two sides and the angle:') \n a=4.1,  b=9.1,  A=20/180*pi   \n disp('Use the sine theorem to obtain sin(B), then B and C')  \n sB=b*sin(A)/a,  B=asin(sB),  C=pi-A-B \n disp('Calculate the side c by the sine theorem') \n c=a*sin(C)/sin(A) \n disp('Convert the angles to degrees') \n Adg=A/pi*180,  Bdg=B/pi*180,  Cdg=C/pi*180 \n disp('Repeat to find the second solution') \n a=4.1,  b=9.1,  A=20/180*pi \n sB=b*sin(A)/a,  B=pi-asin(sB),  C=pi-A-B \n disp('Convert the angles to degrees') \n Adg=A/pi*180,  Bdg=B/pi*180,  Cdg=C/pi*180",
+  "summary": "Triangle with Two Sides and One Angle Known"
 },
-
 {
 "code":"x0=5;  X=-x0:0.01:x0; \n Y1=sin(X);  Y2=cos(X);  Y3=tan(X);  Y4=cot(X);  \n figure(1),  plot(X,Y1,  X,Y2,  X,Y3,  X,Y4),  grid on \n y0=3; \n axis([-x0 x0 -y0 y0]) \n title('Trigonometric Functions'),  xlabel('x'),  ylabel('sin(x), cos(x), etc.') \n legend('sin(x)', 'cos(x)', 'tan(x)', 'cot(x)') ",
 "summary":"Plot Trigonometric Functions"
 },
 {
-"code":"x0=1;  X=-x0:0.01:x0;  \n Y1=acos(X);  Y2=atan(X);   \n figure(1),  plot(X,Y1, X,Y2),  grid on \n y0=2*pi;  \n axis([-x0 x0 -y0 y0])		 \n title('Inverse Functions'),  xlabel('x'),  ylabel('acos(x), atan(x)') \n legend('acos(x)', 'atan(x)') ",
+"code":"x0=1;  X=-x0:0.01:x0;  \n Y1=acos(X);  Y2=atan(X);   \n figure(1),  plot(X,Y1, X,Y2),  grid on \n y0=2*pi;  \n axis([-x0 x0 -y0 y0]) \n title('Inverse Functions'),  xlabel('x'),  ylabel('acos(x), atan(x)') \n legend('acos(x)', 'atan(x)') ",
 "summary":" Inverse Trigonometric Functions"
 },
 {
@@ -388,7 +380,7 @@
 "summary":"Inverse Trigonometric Functions by Swapping "
 },
 {
-"code":"x0=10;  X=-x0:0.01:x0; \n Y1=exp(X);  Y2=1e3*exp(X);  Y3=1e6*exp(X);     \n figure(1),  plot(X,Y1, X,Y2, X,Y3),  grid on \n title('Exponential functions'),  xlabel('x'),  ylabel('exp(x), etc.') \n legend('exp(x)', '1e3*exp(x)', '1e6*exp(x)') \n axis([-x0 x0 0 2.5e4])	",
+"code":"x0=10;  X=-x0:0.01:x0; \n Y1=exp(X);  Y2=1e3*exp(X);  Y3=1e6*exp(X);     \n figure(1),  plot(X,Y1, X,Y2, X,Y3),  grid on \n title('Exponential functions'),  xlabel('x'),  ylabel('exp(x), etc.') \n legend('exp(x)', '1e3*exp(x)', '1e6*exp(x)') \n axis([-x0 x0 0 2.5e4])",
 "summary":"Plot Exponential Functions"
 },
 { 
@@ -408,11 +400,11 @@
 "summary":"Plot  two Gaussians "
 },
 {
-"code":"theta=0: 1e-3: 2*pi; figure(1);  polar(theta, sin(theta));  \n figure(2);  polar(theta, cos(theta));   \n rho3=cos(4*theta); \n figure(3);  polar(theta, rho3);   \n rho4=1+0.3*cos(8*theta); \n figure(4);  polar(theta, rho4);  \n figure(5);  polar(theta, pi*theta,'r'); \n theta=0: 1e-3: 6*pi; \n figure(6);  polar(theta, pi*theta,'r');	 \n figure(7);  polar(theta, exp(0.05*theta),'r');	",
+"code":"theta=0: 1e-3: 2*pi; figure(1);  polar(theta, sin(theta));  \n figure(2);  polar(theta, cos(theta));   \n rho3=cos(4*theta); \n figure(3);  polar(theta, rho3);   \n rho4=1+0.3*cos(8*theta); \n figure(4);  polar(theta, rho4);  \n figure(5);  polar(theta, pi*theta,'r'); \n theta=0: 1e-3: 6*pi; \n figure(6);  polar(theta, pi*theta,'r'); \n figure(7);  polar(theta, exp(0.05*theta),'r'); ",
 "summary":" Plots in Polar Coordinates"
 },
 {
-"code":"T= 0:1e-3:2*pi;	 \n [X1,Y1]=ellipse(T, 2, 1, 0);  \n [X2,Y2]=ellipse(T, 2, 1, pi/3);  \n [X3,Y3]=ellipse(T, 2, 1, pi/2);   \n figure(1);  plot(X1,Y1,  X2,Y2,  X3,Y3);  grid on;  axis equal; \n title('Ellipses'); \n legend('t0=0', 't0=pi/3', 't0=pi/2'),  xlabel('x'),  ylabel('y')  ",
+"code":"T= 0:1e-3:2*pi; \n [X1,Y1]=ellipse(T, 2, 1, 0);  \n [X2,Y2]=ellipse(T, 2, 1, pi/3);  \n [X3,Y3]=ellipse(T, 2, 1, pi/2);   \n figure(1);  plot(X1,Y1,  X2,Y2,  X3,Y3);  grid on;  axis equal; \n title('Ellipses'); \n legend('t0=0', 't0=pi/3', 't0=pi/2'),  xlabel('x'),  ylabel('y')  ",
 "summary":"Plot of Ellipses"
 },
 {
@@ -420,36 +412,36 @@
 "summary":"Plot a Cubic Polynomial "
 },
 {
-"code":" clear all \n X=0: 0.01: 10;  Y=xcos(X); \n h=1e-4;	 \n Der=(xcos(X+h)- xcos(X))/ h; \n figure(1),  plot(X,Y,  X,Der),  grid on, \n    legend('f=x*cos(x)', 'df/dx'),  xlabel('x') \n Dex=cos(X)-X.*sin(X); \n figure(2),  plot(X,Der,  X,Dex),  grid on,  legend('df/dx', 'exact')	 \n figure(3),  plot(X, Der- Dex),  grid on,  title('Error in df/dx')",
+"code":" clear all \n X=0: 0.01: 10;  Y=xcos(X); \n h=1e-4; \n Der=(xcos(X+h)- xcos(X))/ h; \n figure(1),  plot(X,Y,  X,Der),  grid on, \n    legend('f=x*cos(x)', 'df/dx'),  xlabel('x') \n Dex=cos(X)-X.*sin(X); \n figure(2),  plot(X,Der,  X,Dex),  grid on,  legend('df/dx', 'exact') \n figure(3),  plot(X, Der- Dex),  grid on,  title('Error in df/dx')",
 "summary":" Plot a Function and its Derivative   "
 },
 {
-"code":"clear all \n X=0: 0.01: 10;  Y=xcos(X); \n h=1e-4;	 \n Der=(xcos(X+h)- xcos(X-h))/(2*h); \n figure(1),  plot(X,Y,  X,Der),  grid on,   \n    legend('f=x*cos(x)', 'df/dx'),  xlabel('x') \n Dex=cos(X)-X.*sin(X); \n figure(2),  plot(X,Der,  X,Dex),  grid on,  legend('df/dx', 'exact')	\n figure(3),  plot(X, Der- Dex),  grid on,  title('Error in df/dx')",
+"code":"clear all \n X=0: 0.01: 10;  Y=xcos(X); \n h=1e-4; \n Der=(xcos(X+h)- xcos(X-h))/(2*h); \n figure(1),  plot(X,Y,  X,Der),  grid on,   \n    legend('f=x*cos(x)', 'df/dx'),  xlabel('x') \n Dex=cos(X)-X.*sin(X); \n figure(2),  plot(X,Der,  X,Dex),  grid on,  legend('df/dx', 'exact') \n figure(3),  plot(X, Der- Dex),  grid on,  title('Error in df/dx')",
 "summary":"Plot a Function and its Symmetric Derivative  "
 },
 {
-"code":"  clear all \n X=0:0.01:10;  Y=xcos(X); \n h=1e-4;	 \n Der=(xcos(X+h)- xcos(X-h))/(2*h); \n Der2=(xcos(X+h)-2*xcos(X)+xcos(X-h))/h^2;	\n figure(1),  plot(X,Y,  X,Der,  X,Der2),  grid on,  xlabel('x')  \n    legend('f=x*cos(x)', 'df/dx', 'd2f/dx2') \n D2ex=-sin(X)- sin(X)- X.*cos(X); \n figure(2),  plot(X,Der2,  X,D2ex),  grid on \n legend('d2f/dx2', 'exact') \n figure(3),  plot(X,Der2-D2ex),  grid on,  title('Error in d2f/dx2')",
+"code":"  clear all \n X=0:0.01:10;  Y=xcos(X); \n h=1e-4; \n Der=(xcos(X+h)- xcos(X-h))/(2*h); \n Der2=(xcos(X+h)-2*xcos(X)+xcos(X-h))/h^2; \n figure(1),  plot(X,Y,  X,Der,  X,Der2),  grid on,  xlabel('x')  \n    legend('f=x*cos(x)', 'df/dx', 'd2f/dx2') \n D2ex=-sin(X)- sin(X)- X.*cos(X); \n figure(2),  plot(X,Der2,  X,D2ex),  grid on \n legend('d2f/dx2', 'exact') \n figure(3),  plot(X,Der2-D2ex),  grid on,  title('Error in d2f/dx2')",
 "summary":" Plot Second-Order Derivative"
 },
 {
-"code":"clear all,  format long \n k=input('k= (e.g. 2) ');	 \n si=0;	 \n for i=1:20	 \n    term=k^(i-1); \n    si=si+term;	\n    si_ex=(1-k^i)/(1-k);	 \n    sums=[si  si_ex],  pause	 \n end	",
-"summary":"Sum of a Geometric Series	"
+"code":"clear all,  format long \n k=input('k= (e.g. 2) '); \n si=0; \n for i=1:20 \n    term=k^(i-1); \n    si=si+term; \n    si_ex=(1-k^i)/(1-k); \n    sums=[si  si_ex],  pause \n end",
+"summary":"Sum of a Geometric Series"
 },
 
 {
-"code":"clear all,  format long; \n x=input('x= (e.g. 1) '); \n term=x;  s=x;  i=0;	\n 	 while 1==1 \n    i=i+1; \n    term=term*(-x^2)/(2*i+1)/(2*i); \n    s=s+ term; \n    if abs(term)<1e-15;  break;  end; \n end \n last_index_in_sum=i	 \n sum=s,  sin_ex=sin(x) \n format short e,  error=s- sin(x)",
+"code":"clear all,  format long; \n x=input('x= (e.g. 1) '); \n term=x;  s=x;  i=0; \n while 1==1 \n    i=i+1; \n    term=term*(-x^2)/(2*i+1)/(2*i); \n    s=s+ term; \n    if abs(term)<1e-15;  break;  end; \n end \n last_index_in_sum=i \n sum=s,  sin_ex=sin(x) \n format short e,  error=s- sin(x)",
 "summary":"Power Series for sin(x)"
 },
 {
-"code":"clear all,  format long	 \n xn=input('xn= (e.g. 1) '); \n x1=0;  n=500; \n h=(xn-x1)/n; \n X=x1: h: xn-h; \n F=cos(X);	\n integral=sum(F)* h; \n int_ex=sin(xn)-sin(x1); \n 	integrals=[integral  int_ex] \n format short e,  error=integral-int_ex",
-"summary":"Integration by Direct Summing 	"
+"code":"clear all,  format long \n xn=input('xn= (e.g. 1) '); \n x1=0;  n=500; \n h=(xn-x1)/n; \n X=x1: h: xn-h; \n F=cos(X); \n integral=sum(F)* h; \n int_ex=sin(xn)-sin(x1); \n integrals=[integral  int_ex] \n format short e,  error=integral-int_ex",
+"summary":"Integration by Direct Summing"
 },
 {
-"code":"clear all \n rand('seed',sum(100*clock)) \n n=5000;	 \n X=2*(rand(1,n)-0.5);  \n figure(1),  hist(X,10);  grid on \n   title('Number of Random Values in Each Container') ",
+"code":"clear all \n rand('seed',sum(100*clock)) \n n=5000; \n X=2*(rand(1,n)-0.5);  \n figure(1),  hist(X,10);  grid on \n   title('Number of Random Values in Each Container') ",
 "summary":" Histogram of symmetric random numbers   "
 },
 {
-"code":"clear all \n rand('seed',sum(100*clock)) \n while 1==1	\n    head=ceil(rand-0.5) \n    pause \n end",
+"code":"clear all \n rand('seed',sum(100*clock)) \n while 1==1 \n    head=ceil(rand-0.5) \n    pause \n end",
 "summary":" Tossing Coins   "
 },
 {
@@ -461,7 +453,7 @@
 "summary":" Standard Deviation to Minimize"
 },
 {
-"code":"clear all \n T=[200  250  300  350  400]; \n I=[0.1176    0.0926    0.0735    0.0711    0.0594]*1e-7; \n P=1.5e-6: 5e-9: 3.5e-6;  		% Values of p for plot \n n=length(P); \n for i=1:n \n    F(i)=ssq1( P(i), T, I); \n end \n figure(2),  plot(T,I,'o',  T,2.34e-6./T),  grid on,  xlabel('temperature')   \n ",
+"code":"clear all \n T=[200  250  300  350  400]; \n I=[0.1176    0.0926    0.0735    0.0711    0.0594]*1e-7; \n P=1.5e-6: 5e-9: 3.5e-6; % Values of p for plot \n n=length(P); \n for i=1:n \n    F(i)=ssq1( P(i), T, I); \n end \n figure(2),  plot(T,I,'o',  T,2.34e-6./T),  grid on,  xlabel('temperature')   \n ",
 "summary":"Minimize Standard Deviation, Plot Result"
 },
 {
